@@ -1,0 +1,31 @@
+[
+  {
+    "id": "leave-days",
+    "question": "正式员工每年有多少天带薪年假？最多能结转多少天？",
+    "relevant_sources": ["employee_handbook.md"],
+    "relevant_text_contains": ["12 天带薪年假"],
+    "answer_keywords": ["12", "5", "下一年第一季度"]
+  },
+  {
+    "id": "rag-top-k",
+    "question": "AI 平台默认召回多少片段，重排序后保留多少？",
+    "relevant_sources": ["ai_platform_guide.txt"],
+    "relevant_text_contains": ["Top-8"],
+    "answer_keywords": ["Top-8", "4"]
+  },
+  {
+    "id": "p0-notification",
+    "question": "确认 P0 安全事件后，需要在多久内通知哪些负责人？",
+    "relevant_sources": ["security_policy.md"],
+    "relevant_text_contains": ["10 分钟"],
+    "answer_keywords": ["10 分钟", "安全负责人", "技术负责人"]
+  },
+  {
+    "id": "learning-budget",
+    "question": "正式员工年度学习预算是多少，什么情况要预先审批？",
+    "relevant_sources": ["employee_handbook.md"],
+    "relevant_text_contains": ["5,000 元"],
+    "answer_keywords": ["5,000", "2,000", "部门负责人"]
+  }
+]
+
