@@ -1,12 +1,26 @@
 # 企业知识库 RAG 智能问答系统
 
-一个完整、可运行、可评测的企业文档问答项目。文档摄取、Chunking、Embedding、FAISS、Reranker、生成层、API 和评测彼此解耦，并保留来源元数据以返回可核验引用。
+![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
-项目内置 3 份示例文档和 4 条 QA，无需准备数据即可运行。默认生成层是**无 API Key 的抽取式 fallback**；Embedding 与 Reranker 默认使用 `sentence-transformers`。如果只是离线冒烟测试，可切到确定性的 hashing embedding。
+一个模块化、可运行、可评测的企业文档问答项目。系统支持文档摄取、递归分块、向量检索、Cross-Encoder 重排、答案生成和可核验引用，并通过 FastAPI 对外提供服务。
 
-> 本项目不附带伪造的性能指标。`evaluation` 与 `experiment` 会基于本机实际运行结果生成报告。
+仓库内置示例文档和 QA 数据，无需额外准备数据即可体验完整流程。默认使用无需 API Key 的抽取式生成器；也可以连接 OpenAI API、Ollama、vLLM、LM Studio 等 OpenAI-compatible 服务。
 
-## 架构
+## 功能特性
+
+- 支持 PDF、TXT 和 Markdown 文档
+- 保留文件名、PDF 页码、分块 ID 等来源元数据
+- 使用 Sentence Transformers 与 FAISS 进行向量检索
+- 使用 Cross-Encoder 对候选结果进行二阶段重排
+- 支持抽取式生成和 OpenAI-compatible LLM
+- 返回答案及对应原文引用，便于核验
+- 提供检索指标、答案关键词覆盖率和参数网格实验
+- 提供文档上传、索引构建、查询和健康检查 API
+- 包含自动化测试、轻量冒烟测试和 Docker 部署配置
+
+## 系统架构
 
 ```text
 PDF / TXT / Markdown
@@ -27,41 +41,84 @@ PDF / TXT / Markdown
  Cross-Encoder Reranker
         │ Top-N contexts
         ▼
- 可插拔 LLM Provider ── Extractive / OpenAI-compatible
+ Extractive / OpenAI-compatible LLM
         │
         ▼
- Answer + [source, page, chunk_id, scores]
+ Answer + Citations
 ```
 
-关键设计：
+核心模块彼此解耦：
 
-- `app/ingestion`：支持 PDF、TXT、Markdown；PDF 按页读取，来源元数据不丢失。
-- `app/retrieval`：Embedding 接口、FAISS 持久化、Cross-Encoder 重排相互独立。
-- `app/generation`：无 Key fallback 与 OpenAI-compatible provider；可连接 OpenAI API、Ollama、vLLM 或 LM Studio。
-- `app/rag/pipeline.py`：只负责 orchestration，便于测试和替换实现。
-- `evaluation`：检索指标、答案关键词覆盖、参数网格实验。
-- `FastAPI`：上传、建索引、查询、健康检查，包含输入约束、文件类型/大小校验和统一错误响应。
+- `app/ingestion`：文档加载与递归分块
+- `app/retrieval`：Embedding、FAISS 向量索引与重排
+- `app/generation`：Prompt 与可插拔生成器
+- `app/rag`：RAG 流程编排
+- `evaluation`：检索和答案评测、参数实验
+- `app/main.py`：FastAPI 接口
 
 ## 快速开始
 
-要求 Python 3.11+。首次使用 sentence-transformers 会下载两个模型。
+### 1. 准备环境
+
+需要 Python 3.11 或更高版本。
 
 ```bash
+git clone https://github.com/zliu323/Rag.git
+cd Rag
 python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
+```
+
+激活虚拟环境：
+
+```powershell
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+```
+
+```bash
+# macOS / Linux
+source .venv/bin/activate
+```
+
+安装依赖并创建配置文件：
+
+```bash
 pip install -r requirements.txt
-copy .env.example .env          # Windows
-# cp .env.example .env          # macOS/Linux
+```
+
+```powershell
+# Windows PowerShell
+Copy-Item .env.example .env
+```
+
+```bash
+# macOS / Linux
+cp .env.example .env
+```
+
+首次运行默认配置时，Sentence Transformers 会自动下载 Embedding 和 Reranker 模型。
+
+### 2. 构建示例索引
+
+```bash
 python -m scripts.index_samples
+```
+
+### 3. 启动 API
+
+```bash
 uvicorn app.main:app --reload
 ```
 
-打开 `http://127.0.0.1:8000/docs` 使用交互式 API 文档。
+服务启动后可访问：
 
-### 无模型下载的轻量模式
+- Swagger UI：<http://127.0.0.1:8000/docs>
+- ReDoc：<http://127.0.0.1:8000/redoc>
+- 健康检查：<http://127.0.0.1:8000/health>
 
-在 `.env` 中设置：
+## 轻量离线模式
+
+如果只想快速验证流程，或暂时不下载模型，可在 `.env` 中使用确定性的 Hashing Embedding，并关闭 Reranker：
 
 ```dotenv
 RAG_EMBEDDING_PROVIDER=hashing
@@ -69,55 +126,55 @@ RAG_RERANKER_ENABLED=false
 RAG_LLM_PROVIDER=extractive
 ```
 
-然后运行 `python -m scripts.smoke_test`。Hashing 模式仅用于测试系统连通性，不应作为生产语义检索模型或简历性能结论。
-
-## API 示例
-
-健康检查：
+运行冒烟测试：
 
 ```bash
-curl http://127.0.0.1:8000/health
+python -m scripts.smoke_test
 ```
 
-上传文档（可多文件）：
+Hashing 模式仅用于测试系统连通性，不适合作为生产语义检索方案或生产性能依据。
 
-```bash
-curl -X POST http://127.0.0.1:8000/documents/upload \
-  -F "files=@policy.pdf" -F "files=@handbook.md"
-```
+## 配置
 
-对内置样例和上传文件重建索引：
+所有配置均可通过 `.env` 文件设置，环境变量统一使用 `RAG_` 前缀。
 
-```bash
-curl -X POST http://127.0.0.1:8000/index \
-  -H "Content-Type: application/json" \
-  -d '{"include_samples":true,"include_uploads":true}'
-```
+| 配置项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `RAG_EMBEDDING_PROVIDER` | `sentence-transformers` | Embedding 实现，可选 `sentence-transformers` 或 `hashing` |
+| `RAG_EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` | Embedding 模型 |
+| `RAG_EMBEDDING_DEVICE` | `cpu` | 模型运行设备 |
+| `RAG_RERANKER_ENABLED` | `true` | 是否启用 Cross-Encoder 重排 |
+| `RAG_RERANKER_MODEL` | `cross-encoder/ms-marco-MiniLM-L-6-v2` | Reranker 模型 |
+| `RAG_LLM_PROVIDER` | `extractive` | 生成器，可选 `extractive` 或 `openai-compatible` |
+| `RAG_LLM_MODEL` | `gpt-4.1-mini` | OpenAI-compatible 模型名称 |
+| `RAG_LLM_BASE_URL` | `https://api.openai.com/v1` | OpenAI-compatible API 地址 |
+| `RAG_LLM_API_KEY` | 空 | API Key；抽取式生成器不需要 |
+| `RAG_CHUNK_SIZE` | `700` | 文档分块大小 |
+| `RAG_CHUNK_OVERLAP` | `120` | 相邻分块重叠大小 |
+| `RAG_TOP_K` | `8` | 向量检索候选数量 |
+| `RAG_RERANK_TOP_N` | `4` | 重排后保留的上下文数量 |
+| `RAG_MAX_UPLOAD_MB` | `20` | 单个上传文件的大小上限 |
 
-查询：
-
-```bash
-curl -X POST http://127.0.0.1:8000/query \
-  -H "Content-Type: application/json" \
-  -d '{"question":"正式员工有多少天年假？","top_k":8,"rerank":true}'
-```
-
-响应中的 `citations` 包含 `source`、PDF `page`、`chunk_id`、最终 `score`、重排前 `retrieval_score` 和原文。引用由系统元数据生成，而不是让模型自由编写来源。
+完整配置示例见 [`.env.example`](.env.example)。
 
 ## LLM Provider
 
-默认 `extractive` 不需要 API Key。它从检索上下文中抽取与问题词项重合最高的句子，并附引用；上下文不足时明确拒答。
+### 抽取式生成
 
-连接 OpenAI-compatible 服务：
+默认的 `extractive` 模式不需要 API Key。它会从检索上下文中抽取与问题最相关的句子，并在证据不足时拒绝回答。
+
+### OpenAI-compatible 服务
+
+连接 OpenAI API：
 
 ```dotenv
 RAG_LLM_PROVIDER=openai-compatible
 RAG_LLM_BASE_URL=https://api.openai.com/v1
 RAG_LLM_MODEL=gpt-4.1-mini
-RAG_LLM_API_KEY=your-key
+RAG_LLM_API_KEY=your-api-key
 ```
 
-连接本地 Ollama（示例）：
+连接本地 Ollama：
 
 ```dotenv
 RAG_LLM_PROVIDER=openai-compatible
@@ -126,48 +183,93 @@ RAG_LLM_MODEL=qwen2.5:7b
 RAG_LLM_API_KEY=
 ```
 
-生成参数固定 `temperature=0`，Prompt 明确要求只依据上下文回答、证据不足时拒答，并使用 `[n]` 引用。
+生成参数固定为 `temperature=0`。Prompt 要求模型只依据给定上下文回答，并在证据不足时明确说明。
+
+## API 使用
+
+### 健康检查
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+### 上传文档
+
+支持一次上传一个或多个 PDF、TXT 或 Markdown 文件：
+
+```bash
+curl -X POST http://127.0.0.1:8000/documents/upload \
+  -F "files=@policy.pdf" \
+  -F "files=@handbook.md"
+```
+
+### 构建索引
+
+对内置样例和已上传文件重建索引：
+
+```bash
+curl -X POST http://127.0.0.1:8000/index \
+  -H "Content-Type: application/json" \
+  -d '{"include_samples":true,"include_uploads":true}'
+```
+
+### 查询
+
+```bash
+curl -X POST http://127.0.0.1:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"question":"正式员工有多少天年假？","top_k":8,"rerank":true}'
+```
+
+查询响应中的 `citations` 包含：
+
+- `source`：来源文件
+- `page`：PDF 页码
+- `chunk_id`：分块 ID
+- `score`：最终相关性分数
+- `retrieval_score`：重排前的检索分数
+- `text`：引用原文
+
+引用信息来自文档摄取阶段保留的元数据，而不是由模型自行生成。
 
 ## 评测
 
-标准评测：
+运行标准评测：
 
 ```bash
 python -m evaluation.evaluate --k 5 --output reports/evaluation.json
 ```
 
-轻量离线评测：
+运行无需下载模型的轻量评测：
 
 ```bash
 python -m evaluation.evaluate --lightweight --k 5 --output reports/evaluation-lightweight.json
 ```
 
-指标定义：
+当前包含以下指标：
 
-- `Hit@K`：前 K 个结果中是否至少出现一个相关片段。
-- `Recall@K`：前 K 个结果覆盖的相关来源比例。
-- `MRR`：首个相关片段排名的倒数，多条问题取均值。
-- `answer_correctness`：标准答案关键词在回答中的覆盖比例。它透明、易复现，但不能代替语义正确性或人工评审。
+- `Hit@K`：前 K 个结果中是否至少包含一个相关片段
+- `Recall@K`：前 K 个结果覆盖的相关来源比例
+- `MRR`：首个相关片段排名的倒数均值
+- `answer_correctness`：标准答案关键词在回答中的覆盖比例
 
-QA 文件位于 `sample_data/evaluation/qa.json`。每条包含问题、相关来源、相关原文特征和答案关键词，方便增加真实业务测试集。
+评测数据位于 `sample_data/evaluation/qa.json`，可以替换或扩充为真实业务测试集。
 
-参数实验：
+运行参数网格实验：
 
 ```bash
 python -m evaluation.experiment --output reports/experiments.json
-# 无模型下载：添加 --lightweight（此时 rerank 实验会自动关闭）
 ```
 
-脚本真实比较：
+无需下载模型时添加 `--lightweight`：
 
-- `chunk_size`: 350 / 700
-- `overlap`: 60 / 120
-- `top_k`: 3 / 5
-- `rerank`: false / true
+```bash
+python -m evaluation.experiment --lightweight --output reports/experiments-lightweight.json
+```
 
-不要仅依据这 4 条示例 QA 选择生产参数；应扩充为覆盖事实查询、多跳查询、无答案问题和边界条件的代表性数据集。
+实验会比较不同的 `chunk_size`、`overlap`、`top_k` 和 `rerank` 组合。内置 QA 数量较少，生产参数应基于具有代表性的业务数据进行选择。
 
-## 测试与质量检查
+## 测试与代码检查
 
 ```bash
 pytest --cov=app --cov=evaluation
@@ -175,57 +277,54 @@ ruff check .
 python -m scripts.smoke_test
 ```
 
-测试覆盖文档加载、分块元数据、指标计算、轻量端到端管线，以及 FastAPI 的 health → index → query 主路径。
+测试覆盖文档加载、分块元数据、评测指标、轻量端到端流程，以及 FastAPI 的 `health → index → query` 主路径。
 
 ## Docker
 
+构建镜像：
+
 ```bash
 docker build -t rag-knowledge-base .
-docker run --rm -p 8000:8000 --env-file .env \
-  -v rag-index:/service/data/index rag-knowledge-base
 ```
 
-模型首次下载会增加启动时间。生产环境建议在镜像构建或模型缓存卷中预下载，并设置 CPU/内存限制。当前 FAISS 索引适合单实例；多副本部署应把索引构建做成独立任务，并通过对象存储或版本化制品分发一致索引。
+启动容器：
 
-## 目录结构
+```bash
+docker run --rm -p 8000:8000 --env-file .env \
+  -v rag-index:/service/data/index \
+  rag-knowledge-base
+```
+
+模型首次下载会增加启动时间。生产部署可在镜像构建阶段预下载模型，或挂载模型缓存卷。
+
+## 项目结构
 
 ```text
 app/
-├── ingestion/       # loader + recursive splitter
-├── retrieval/       # embedding + FAISS + reranker
-├── generation/      # prompt + pluggable providers
-├── rag/             # orchestration pipeline
-├── config.py        # typed environment settings
-├── domain.py        # core data types
-├── exceptions.py    # expected application errors
-├── logging.py       # structured-friendly logs
-├── schemas.py       # API contracts
-└── main.py          # FastAPI endpoints
-evaluation/          # metrics, evaluation and grid experiment
-sample_data/         # sample documents and QA labels
-scripts/             # sample indexing and smoke test
-tests/               # unit and API tests
+├── ingestion/       # 文档加载与递归分块
+├── retrieval/       # Embedding、FAISS 与 Reranker
+├── generation/      # Prompt 与可插拔生成器
+├── rag/             # RAG 流程编排
+├── config.py        # 环境配置
+├── domain.py        # 核心数据类型
+├── exceptions.py    # 应用异常
+├── logging.py       # 日志配置
+├── schemas.py       # API 数据结构
+└── main.py          # FastAPI 接口
+evaluation/          # 评测指标与参数实验
+sample_data/         # 示例文档和 QA 数据
+scripts/             # 索引与冒烟测试脚本
+tests/               # 单元测试和 API 测试
 ```
 
-## 面试可讲点
+## 已知限制
 
-1. **为什么两阶段检索？** Bi-Encoder 可预计算文档向量，适合大规模召回；Cross-Encoder 对 query-document 联合编码，相关性更强但成本更高，因此只重排 Top-K。
-2. **为什么 IndexFlatIP？** sentence-transformers 输出 L2 归一化向量后，内积等价于余弦相似度；Flat 索引是精确搜索，适合本项目的小数据。规模扩大后可评测 IVF/HNSW 的召回—延迟权衡。
-3. **Chunk 怎么选？** 太小会丢上下文，太大导致语义稀释、重复 token 和延迟上升。不能凭感觉，应在代表性 QA 上联合搜索 chunk_size、overlap 和 top_k。
-4. **引用如何防伪？** source/page/chunk_id 在摄取阶段产生并随检索结果返回；模型只看到编号上下文，API 最终引用来自受控元数据。
-5. **如何评测？** 检索层看 Hit@K、Recall@K、MRR；生成层的关键词覆盖只作基础代理，还需无答案率、faithfulness、人工评分和线上反馈。
-6. **为什么不用 LangChain？** 本项目刻意保留薄接口和显式数据流，更容易调试、测试和解释；需要复杂 agent/graph 时可在 pipeline 外层引入框架，而不是让核心逻辑被框架隐藏。
-7. **生产化缺口？** 鉴权、病毒扫描、OCR、增量索引、租户隔离、任务队列、缓存、索引版本、观测与 PII 脱敏需要按业务补充。
-8. **无答案怎么办？** Prompt 和 fallback 都支持拒答，但严谨系统还应增加检索分数校准/分类器，并在验证集上选择阈值。
-
-## 安全与限制
-
-- 上传文件使用随机前缀和安全文件名，限制类型与大小；生产环境仍应增加恶意文件扫描和 PDF 解析隔离。
-- `.env` 与运行生成的索引默认不提交版本库。
-- 当前重建索引是全量替换，适合演示与中小知识库。增量更新需要处理删除、重复文档、版本与并发读写。
-- Extractive fallback 不是通用 LLM，只保证无 Key 时系统可完整跑通和核验引用。
+- 当前索引重建为全量替换，尚未实现增量更新和文档删除同步
+- PDF 暂不包含 OCR，扫描件需要先进行文字识别
+- FAISS 本地索引适合单实例；多副本部署需要统一分发版本化索引
+- 生产环境仍需按业务增加鉴权、租户隔离、恶意文件扫描、任务队列、监控和 PII 脱敏
+- 抽取式生成器用于保证无 API Key 时流程可运行，不等同于通用 LLM
 
 ## License
 
-MIT（示例项目，可按需要替换）。
-
+本项目基于 [MIT License](LICENSE) 开源。
