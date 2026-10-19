@@ -1,6 +1,6 @@
 # 企业知识库 RAG 智能问答系统
 
-一个完整、可运行、可评测的企业文档问答项目。它不是把所有逻辑塞进单文件的演示：文档摄取、Chunking、Embedding、FAISS、Reranker、生成层、API 和评测彼此解耦，并保留来源元数据以返回可核验引用。
+一个完整、可运行、可评测的企业文档问答项目。文档摄取、Chunking、Embedding、FAISS、Reranker、生成层、API 和评测彼此解耦，并保留来源元数据以返回可核验引用。
 
 项目内置 3 份示例文档和 4 条 QA，无需准备数据即可运行。默认生成层是**无 API Key 的抽取式 fallback**；Embedding 与 Reranker 默认使用 `sentence-transformers`。如果只是离线冒烟测试，可切到确定性的 hashing embedding。
 
