@@ -39,7 +39,6 @@ class QueryResponse(BaseModel):
 class GraphQueryResponse(QueryResponse):
     decision: Literal["answered", "refused"]
     retrieval_attempts: int
-    evidence_coverage: float
     rewritten_question: str | None = None
 
 

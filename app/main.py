@@ -36,9 +36,7 @@ async def lifespan(app: FastAPI):
     logger.info("initializing_pipeline embedding_provider=%s", settings.embedding_provider)
     app.state.settings = settings
     app.state.pipeline = build_pipeline(settings)
-    app.state.graph_workflow = GraphRAGWorkflow(
-        app.state.pipeline, min_coverage=settings.graph_min_coverage
-    )
+    app.state.graph_workflow = GraphRAGWorkflow(app.state.pipeline)
     yield
     app.state.pipeline.observability.flush()
 

@@ -7,9 +7,15 @@ def result(text: str) -> SearchResult:
 
 
 class StubPipeline:
-    def __init__(self, first: list[SearchResult], second: list[SearchResult]) -> None:
+    def __init__(
+        self,
+        first: list[SearchResult],
+        second: list[SearchResult],
+        answer: str = "负责人应在15分钟内收到通知。",
+    ) -> None:
         self.first = first
         self.second = second
+        self.answer = answer
         self.calls: list[str] = []
         self.generated = False
         self.observability = None
@@ -20,7 +26,7 @@ class StubPipeline:
 
     def answer_from_contexts(self, question: str, contexts: list[SearchResult]) -> str:
         self.generated = True
-        return "负责人应在15分钟内收到通知。"
+        return self.answer
 
     @staticmethod
     def format_response(question: str, answer: str, contexts: list[SearchResult], trace_id):
@@ -34,7 +40,7 @@ class StubPipeline:
 
 def test_graph_rewrites_once_then_answers_with_second_retrieval() -> None:
     pipeline = StubPipeline(
-        first=[result("员工年度学习预算为1000元。")],
+        first=[],
         second=[result("P0事件需要在15分钟内通知负责人。")],
     )
     response = GraphRAGWorkflow(pipeline).query(
@@ -45,6 +51,22 @@ def test_graph_rewrites_once_then_answers_with_second_retrieval() -> None:
     assert response["rewritten_question"] == "P0 事件需要在几分钟内通知负责人"
     assert len(pipeline.calls) == 2
     assert response["citations"] == ["chunk-1"]
+    assert pipeline.generated
+
+
+def test_graph_uses_nonempty_retrieval_without_coverage_gate() -> None:
+    pipeline = StubPipeline(first=[result("员工年度学习预算为1000元。")], second=[])
+    response = GraphRAGWorkflow(pipeline).query("请问 P0 事件需要在几分钟内通知负责人？")
+    assert response["decision"] == "answered"
+    assert response["retrieval_attempts"] == 1
+    assert pipeline.generated
+
+
+def test_graph_keeps_extractive_provider_refusal() -> None:
+    pipeline = StubPipeline(first=[result("无关文档。")], second=[], answer=REFUSAL)
+    response = GraphRAGWorkflow(pipeline).query("月球基地如何建设？")
+    assert response["decision"] == "refused"
+    assert response["citations"] == []
     assert pipeline.generated
 
 

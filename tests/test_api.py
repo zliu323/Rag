@@ -23,9 +23,7 @@ def test_health_index_and_query(tmp_path: Path) -> None:
     async def test_lifespan(application):
         application.state.settings = settings
         application.state.pipeline = build_pipeline(settings)
-        application.state.graph_workflow = GraphRAGWorkflow(
-            application.state.pipeline, settings.graph_min_coverage
-        )
+        application.state.graph_workflow = GraphRAGWorkflow(application.state.pipeline)
         yield
 
     original = app.router.lifespan_context

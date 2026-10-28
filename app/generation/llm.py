@@ -10,6 +10,8 @@ from app.exceptions import ProviderError
 from app.generation.prompt import SYSTEM_PROMPT, build_prompt
 from app.text import tokenize
 
+INSUFFICIENT_CONTEXT_ANSWER = "现有知识库内容不足以回答该问题。"
+
 
 class LLMProvider(ABC):
     @abstractmethod
@@ -39,7 +41,7 @@ class ExtractiveProvider(LLMProvider):
         selected = sorted(candidates, key=lambda value: value[0], reverse=True)[:3]
         selected = [value for value in selected if value[0] > 0]
         if not selected:
-            return "现有知识库内容不足以回答该问题。"
+            return INSUFFICIENT_CONTEXT_ANSWER
         return " ".join(f"{sentence} [{citation_id}]" for _, sentence, citation_id in selected)
 
 
