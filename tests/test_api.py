@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 from app.config import Settings
 from app.dependencies import build_pipeline
 from app.main import app
+from app.rag.graph_workflow import GraphRAGWorkflow
 
 
 def test_health_index_and_query(tmp_path: Path) -> None:
@@ -22,6 +23,9 @@ def test_health_index_and_query(tmp_path: Path) -> None:
     async def test_lifespan(application):
         application.state.settings = settings
         application.state.pipeline = build_pipeline(settings)
+        application.state.graph_workflow = GraphRAGWorkflow(
+            application.state.pipeline, settings.graph_min_coverage
+        )
         yield
 
     original = app.router.lifespan_context
@@ -46,6 +50,13 @@ def test_health_index_and_query(tmp_path: Path) -> None:
             assert response.status_code == 200
             assert response.json()["citations"]
             assert response.json()["trace_id"] is None
+            graph_response = client.post(
+                "/query/graph", json={"question": "年度学习预算是多少？", "rerank": False}
+            )
+            assert graph_response.status_code == 200
+            assert graph_response.json()["decision"] == "answered"
+            assert graph_response.json()["retrieval_attempts"] == 1
+            assert graph_response.json()["citations"]
             feedback = client.post(
                 "/feedback",
                 json={"trace_id": "a" * 32, "helpful": True},

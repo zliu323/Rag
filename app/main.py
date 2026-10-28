@@ -14,7 +14,15 @@ from app.dependencies import build_pipeline
 from app.exceptions import RAGError
 from app.ingestion.loader import SUPPORTED_EXTENSIONS
 from app.logging import configure_logging
-from app.schemas import FeedbackRequest, IndexRequest, IndexResponse, QueryRequest, QueryResponse
+from app.rag.graph_workflow import GraphRAGWorkflow
+from app.schemas import (
+    FeedbackRequest,
+    GraphQueryResponse,
+    IndexRequest,
+    IndexResponse,
+    QueryRequest,
+    QueryResponse,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +36,9 @@ async def lifespan(app: FastAPI):
     logger.info("initializing_pipeline embedding_provider=%s", settings.embedding_provider)
     app.state.settings = settings
     app.state.pipeline = build_pipeline(settings)
+    app.state.graph_workflow = GraphRAGWorkflow(
+        app.state.pipeline, min_coverage=settings.graph_min_coverage
+    )
     yield
     app.state.pipeline.observability.flush()
 
@@ -115,6 +126,13 @@ def create_index(payload: IndexRequest, request: Request) -> dict:
 @app.post("/query", response_model=QueryResponse)
 def query(payload: QueryRequest, request: Request) -> dict:
     return request.app.state.pipeline.query(payload.question, payload.top_k, payload.rerank)
+
+
+@app.post("/query/graph", response_model=GraphQueryResponse)
+def graph_query(payload: QueryRequest, request: Request) -> dict:
+    return request.app.state.graph_workflow.query(
+        payload.question, payload.top_k, payload.rerank
+    )
 
 
 @app.post("/feedback")

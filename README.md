@@ -20,6 +20,7 @@
 - 提供检索指标、答案关键词覆盖率和参数网格实验
 - 提供文档上传、索引构建、查询和健康检查 API
 - 可选 Langfuse 追踪检索、重排、生成的延迟与 Token 用量
+- 可选 LangGraph 外层流程：证据检查、问题改写、最多一次重试和拒答
 - 包含自动化测试、轻量冒烟测试、Docker 配置及 GitHub Actions CI
 
 ## 系统架构
@@ -51,6 +52,16 @@ PDF / TXT / Markdown
  Answer + Citations
 ```
 
+`/query/graph` 在上述 RAG 流程外增加控制层：
+
+```text
+检索 → 检查证据 ──足够──→ 生成答案与引用
+             └─不足且可改写─→ 改写问题 → 再检索（最多一次）
+                                 └─仍不足─→ 拒答
+```
+
+现有 `/query` 保持原有直接问答行为。图流程复用相同的检索、重排、生成与引用逻辑，不需要额外模型或 API Key。
+
 核心模块彼此解耦：
 
 - `app/ingestion`：文档加载与递归分块
@@ -58,6 +69,7 @@ PDF / TXT / Markdown
 - `app/observability.py`：可选 Langfuse Trace
 - `app/generation`：Prompt 与可插拔生成器
 - `app/rag`：RAG 流程编排
+- `app/rag/graph_workflow.py`：LangGraph 外层决策与有界重试
 - `evaluation`：检索和答案评测、参数实验
 - `app/main.py`：FastAPI 接口
 
@@ -165,9 +177,22 @@ Hashing 模式仅用于测试系统连通性，不适合作为生产语义检索
 | `RAG_CHUNK_OVERLAP` | `120` | 相邻分块重叠大小 |
 | `RAG_TOP_K` | `8` | 向量检索候选数量 |
 | `RAG_RERANK_TOP_N` | `4` | 重排后保留的上下文数量 |
+| `RAG_GRAPH_MIN_COVERAGE` | `0.4` | 图流程证据词覆盖率阈值，范围 0–1 |
 | `RAG_MAX_UPLOAD_MB` | `20` | 单个上传文件的大小上限 |
 
 完整配置示例见 [`.env.example`](.env.example)。
+
+### LangGraph 外层流程
+
+调用 `POST /query/graph`，请求体与 `/query` 相同：
+
+```bash
+curl -X POST http://127.0.0.1:8000/query/graph \
+  -H "Content-Type: application/json" \
+  -d '{"question":"请问 P0 事件需要在几分钟内通知负责人？","rerank":false}'
+```
+
+响应额外包含 `decision`（`answered` 或 `refused`）、`retrieval_attempts`、`evidence_coverage` 和可选的 `rewritten_question`。证据检查使用问题词与单个检索分块的覆盖率启发式；它不能证明答案正确，实际使用应结合标注数据校准阈值并评估误拒答与误放行。问题改写只清理固定的礼貌表达，不调用模型；如果没有实质改写，则直接拒答以避免重复检索。拒答时不会生成答案，也不会返回低质量引用。
 
 ### pgvector 后端
 

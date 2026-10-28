@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -32,6 +34,13 @@ class QueryResponse(BaseModel):
     answer: str
     citations: list[Citation]
     trace_id: str | None = None
+
+
+class GraphQueryResponse(QueryResponse):
+    decision: Literal["answered", "refused"]
+    retrieval_attempts: int
+    evidence_coverage: float
+    rewritten_question: str | None = None
 
 
 class FeedbackRequest(BaseModel):

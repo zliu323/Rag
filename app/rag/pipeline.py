@@ -126,27 +126,39 @@ class RAGPipeline:
             ) as trace:
                 trace_id = getattr(trace, "trace_id", None)
                 contexts = self.retrieve(question, top_k=top_k, rerank=rerank)
-                with self.observability.observe(
-                    "answer-generation",
-                    kind="generation",
-                    model=getattr(self.llm, "model", "extractive"),
-                    input=self.observability.content(
-                        {"question": question, "contexts": [item.chunk.text for item in contexts]}
-                    ),
-                ) as generation:
-                    answer, usage = self.llm.generate_with_metadata(question, contexts)
-                    generation.update(
-                        output=self.observability.content(answer),
-                        usage_details=usage or None,
-                        metadata={"context_chunk_ids": [item.chunk.id for item in contexts]},
-                    )
+                answer = self.answer_from_contexts(question, contexts)
                 trace.update(
                     output=self.observability.content(answer),
                     metadata={"citations": len(contexts), "answer_length": len(answer)},
                 )
         else:
             contexts = self.retrieve(question, top_k=top_k, rerank=rerank)
-            answer = self.llm.generate(question, contexts)
+            answer = self.answer_from_contexts(question, contexts)
+        return self.format_response(question, answer, contexts, trace_id)
+
+    def answer_from_contexts(self, question: str, contexts: list[SearchResult]) -> str:
+        if not self.observability:
+            return self.llm.generate(question, contexts)
+        with self.observability.observe(
+            "answer-generation",
+            kind="generation",
+            model=getattr(self.llm, "model", "extractive"),
+            input=self.observability.content(
+                {"question": question, "contexts": [item.chunk.text for item in contexts]}
+            ),
+        ) as generation:
+            answer, usage = self.llm.generate_with_metadata(question, contexts)
+            generation.update(
+                output=self.observability.content(answer),
+                usage_details=usage or None,
+                metadata={"context_chunk_ids": [item.chunk.id for item in contexts]},
+            )
+            return answer
+
+    @staticmethod
+    def format_response(
+        question: str, answer: str, contexts: list[SearchResult], trace_id: str | None
+    ) -> dict:
         citations = [
             {
                 "id": index,
