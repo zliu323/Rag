@@ -3,8 +3,10 @@ from __future__ import annotations
 from app.config import Settings
 from app.generation.llm import build_llm
 from app.ingestion.splitter import RecursiveTextSplitter
+from app.observability import Observability
 from app.rag.pipeline import RAGPipeline
 from app.retrieval.embedding import build_embedder
+from app.retrieval.pgvector_store import PgVectorStore
 from app.retrieval.reranker import CrossEncoderReranker
 from app.retrieval.vector_store import FaissVectorStore
 
@@ -13,7 +15,11 @@ def build_pipeline(settings: Settings) -> RAGPipeline:
     embedder = build_embedder(
         settings.embedding_provider, settings.embedding_model, settings.embedding_device
     )
-    store = FaissVectorStore(embedder, settings.index_dir)
+    store = (
+        PgVectorStore(embedder, settings.postgres_dsn)
+        if settings.vector_backend == "pgvector"
+        else FaissVectorStore(embedder, settings.index_dir)
+    )
     store.load()
     reranker = (
         CrossEncoderReranker(settings.reranker_model, settings.embedding_device)
@@ -30,5 +36,7 @@ def build_pipeline(settings: Settings) -> RAGPipeline:
         reranker=reranker,
         top_k=settings.top_k,
         rerank_top_n=settings.rerank_top_n,
+        hybrid_enabled=settings.hybrid_enabled,
+        observability=Observability(settings),
     )
 

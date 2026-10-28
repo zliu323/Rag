@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from abc import ABC, abstractmethod
 from pathlib import Path
 
 import numpy as np
@@ -10,7 +11,34 @@ from app.exceptions import IndexNotReadyError
 from app.retrieval.embedding import Embedder
 
 
-class FaissVectorStore:
+class VectorStore(ABC):
+    embedder: Embedder
+
+    @property
+    @abstractmethod
+    def ready(self) -> bool: ...
+
+    @property
+    @abstractmethod
+    def count(self) -> int: ...
+
+    @abstractmethod
+    def all_chunks(self) -> list[Chunk]: ...
+
+    @abstractmethod
+    def build(self, chunks: list[Chunk]) -> None: ...
+
+    @abstractmethod
+    def search(self, query: str, top_k: int) -> list[SearchResult]: ...
+
+    @abstractmethod
+    def save(self) -> None: ...
+
+    @abstractmethod
+    def load(self) -> bool: ...
+
+
+class FaissVectorStore(VectorStore):
     INDEX_FILE = "vectors.faiss"
     METADATA_FILE = "chunks.json"
     MANIFEST_FILE = "manifest.json"
@@ -32,6 +60,13 @@ class FaissVectorStore:
     @property
     def ready(self) -> bool:
         return self.index is not None and bool(self.chunks)
+
+    @property
+    def count(self) -> int:
+        return len(self.chunks)
+
+    def all_chunks(self) -> list[Chunk]:
+        return list(self.chunks)
 
     def build(self, chunks: list[Chunk]) -> None:
         if not chunks:

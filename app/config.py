@@ -17,6 +17,14 @@ class Settings(BaseSettings):
     log_level: str = "INFO"
     index_dir: Path = ROOT / "data" / "index"
     upload_dir: Path = ROOT / "data" / "uploads"
+    vector_backend: Literal["faiss", "pgvector"] = "faiss"
+    postgres_dsn: str = "postgresql://rag:rag@localhost:5432/rag"
+    hybrid_enabled: bool = True
+    observability_enabled: bool = False
+    observability_capture_content: bool = False
+    langfuse_public_key: str | None = None
+    langfuse_secret_key: str | None = None
+    langfuse_base_url: str = "https://cloud.langfuse.com"
     embedding_provider: Literal["sentence-transformers", "hashing"] = "sentence-transformers"
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     embedding_device: str = "cpu"

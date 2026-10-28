@@ -14,7 +14,7 @@ from app.dependencies import build_pipeline
 from app.exceptions import RAGError
 from app.ingestion.loader import SUPPORTED_EXTENSIONS
 from app.logging import configure_logging
-from app.schemas import IndexRequest, IndexResponse, QueryRequest, QueryResponse
+from app.schemas import FeedbackRequest, IndexRequest, IndexResponse, QueryRequest, QueryResponse
 
 logger = logging.getLogger(__name__)
 
@@ -29,12 +29,13 @@ async def lifespan(app: FastAPI):
     app.state.settings = settings
     app.state.pipeline = build_pipeline(settings)
     yield
+    app.state.pipeline.observability.flush()
 
 
 app = FastAPI(
     title="Enterprise Knowledge Base RAG",
     version="1.0.0",
-    description="Grounded document Q&A with FAISS retrieval, reranking and citations.",
+    description="Grounded document Q&A with hybrid retrieval, reranking and citations.",
     lifespan=lifespan,
 )
 
@@ -56,7 +57,9 @@ def health(request: Request) -> dict:
     return {
         "status": "ok",
         "index_ready": pipeline.vector_store.ready,
-        "indexed_chunks": len(pipeline.vector_store.chunks),
+        "indexed_chunks": pipeline.vector_store.count,
+        "vector_backend": request.app.state.settings.vector_backend,
+        "hybrid_enabled": request.app.state.settings.hybrid_enabled,
         "embedding_provider": request.app.state.settings.embedding_provider,
         "llm_provider": request.app.state.settings.llm_provider,
     }
@@ -112,3 +115,13 @@ def create_index(payload: IndexRequest, request: Request) -> dict:
 @app.post("/query", response_model=QueryResponse)
 def query(payload: QueryRequest, request: Request) -> dict:
     return request.app.state.pipeline.query(payload.question, payload.top_k, payload.rerank)
+
+
+@app.post("/feedback")
+def feedback(payload: FeedbackRequest, request: Request) -> dict:
+    accepted = request.app.state.pipeline.observability.record_feedback(
+        payload.trace_id, payload.helpful, payload.comment
+    )
+    if not accepted:
+        raise HTTPException(status_code=503, detail="Observability is disabled")
+    return {"accepted": True}

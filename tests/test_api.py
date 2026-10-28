@@ -45,5 +45,11 @@ def test_health_index_and_query(tmp_path: Path) -> None:
             )
             assert response.status_code == 200
             assert response.json()["citations"]
+            assert response.json()["trace_id"] is None
+            feedback = client.post(
+                "/feedback",
+                json={"trace_id": "a" * 32, "helpful": True},
+            )
+            assert feedback.status_code == 503
     finally:
         app.router.lifespan_context = original

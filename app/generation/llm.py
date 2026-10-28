@@ -15,6 +15,11 @@ class LLMProvider(ABC):
     @abstractmethod
     def generate(self, question: str, contexts: list[SearchResult]) -> str: ...
 
+    def generate_with_metadata(
+        self, question: str, contexts: list[SearchResult]
+    ) -> tuple[str, dict[str, int]]:
+        return self.generate(question, contexts), {}
+
 
 class ExtractiveProvider(LLMProvider):
     """No-key fallback: selects context sentences with the best query-token overlap."""
@@ -48,6 +53,11 @@ class OpenAICompatibleProvider(LLMProvider):
         self.timeout = timeout
 
     def generate(self, question: str, contexts: list[SearchResult]) -> str:
+        return self.generate_with_metadata(question, contexts)[0]
+
+    def generate_with_metadata(
+        self, question: str, contexts: list[SearchResult]
+    ) -> tuple[str, dict[str, int]]:
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
@@ -64,7 +74,18 @@ class OpenAICompatibleProvider(LLMProvider):
                 self.endpoint, headers=headers, json=payload, timeout=self.timeout
             )
             response.raise_for_status()
-            return response.json()["choices"][0]["message"]["content"].strip()
+            payload = response.json()
+            answer = payload["choices"][0]["message"]["content"].strip()
+            usage = payload.get("usage") or {}
+            details = (
+                {
+                    "input": int(usage["prompt_tokens"]),
+                    "output": int(usage["completion_tokens"]),
+                }
+                if "prompt_tokens" in usage and "completion_tokens" in usage
+                else {}
+            )
+            return answer, details
         except (httpx.HTTPError, KeyError, IndexError, TypeError) as exc:
             raise ProviderError(f"LLM provider request failed: {exc}") from exc
 
