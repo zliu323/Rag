@@ -48,11 +48,19 @@ class ExtractiveProvider(LLMProvider):
 class OpenAICompatibleProvider(LLMProvider):
     """Works with OpenAI-compatible cloud APIs, Ollama, vLLM and LM Studio."""
 
-    def __init__(self, base_url: str, model: str, api_key: str | None, timeout: float = 60) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        model: str,
+        api_key: str | None,
+        timeout: float = 60,
+        extra_payload: dict | None = None,
+    ) -> None:
         self.endpoint = f"{base_url.rstrip('/')}/chat/completions"
         self.model = model
         self.api_key = api_key
         self.timeout = timeout
+        self.extra_payload = extra_payload or {}
 
     def generate(self, question: str, contexts: list[SearchResult]) -> str:
         return self.generate_with_metadata(question, contexts)[0]
@@ -71,6 +79,7 @@ class OpenAICompatibleProvider(LLMProvider):
                 {"role": "user", "content": build_prompt(question, contexts)},
             ],
         }
+        payload.update(self.extra_payload)
         try:
             response = httpx.post(
                 self.endpoint, headers=headers, json=payload, timeout=self.timeout
@@ -92,9 +101,28 @@ class OpenAICompatibleProvider(LLMProvider):
             raise ProviderError(f"LLM provider request failed: {exc}") from exc
 
 
-def build_llm(provider: str, base_url: str, model: str, api_key: str | None) -> LLMProvider:
+def build_llm(
+    provider: str,
+    base_url: str,
+    model: str,
+    api_key: str | None,
+    *,
+    deepseek_base_url: str = "https://api.deepseek.com",
+    deepseek_model: str = "deepseek-flash",
+    deepseek_api_key: str | None = None,
+) -> LLMProvider:
     if provider == "extractive":
         return ExtractiveProvider()
     if provider == "openai-compatible":
         return OpenAICompatibleProvider(base_url, model, api_key)
+    if provider == "deepseek":
+        if not deepseek_api_key or not deepseek_api_key.strip():
+            raise ValueError("RAG_DEEPSEEK_API_KEY is required when RAG_LLM_PROVIDER=deepseek")
+        return OpenAICompatibleProvider(
+            deepseek_base_url,
+            deepseek_model,
+            deepseek_api_key.strip(),
+            timeout=120,
+            extra_payload={"thinking": {"type": "disabled"}},
+        )
     raise ValueError(f"Unknown LLM provider: {provider}")

@@ -30,10 +30,13 @@ class Settings(BaseSettings):
     embedding_device: str = "cpu"
     reranker_enabled: bool = True
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
-    llm_provider: Literal["extractive", "openai-compatible"] = "extractive"
+    llm_provider: Literal["extractive", "openai-compatible", "deepseek"] = "extractive"
     llm_model: str = "gpt-4.1-mini"
     llm_base_url: str = "https://api.openai.com/v1"
     llm_api_key: str | None = None
+    deepseek_model: str = "deepseek-flash"
+    deepseek_base_url: str = "https://api.deepseek.com"
+    deepseek_api_key: str | None = Field(default=None, repr=False)
     chunk_size: int = Field(700, ge=100, le=4000)
     chunk_overlap: int = Field(120, ge=0, le=1000)
     top_k: int = Field(8, ge=1, le=50)

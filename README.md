@@ -6,7 +6,7 @@
 
 一个模块化、可运行、可评测的企业文档问答项目。系统支持文档摄取、递归分块、BM25 与向量混合检索、Cross-Encoder 重排、答案生成和可核验引用，并通过 FastAPI 对外提供服务。
 
-仓库内置示例文档和 QA 数据，无需额外准备数据即可体验完整流程。默认使用无需 API Key 的抽取式生成器；也可以连接 OpenAI API、Ollama、vLLM、LM Studio 等 OpenAI-compatible 服务。
+仓库内置示例文档和 QA 数据，无需额外准备数据即可体验完整流程。默认使用无需 API Key 的抽取式生成器；也可以连接 DeepSeek API、OpenAI API、Ollama、vLLM、LM Studio 等服务。
 
 ## 功能特性
 
@@ -15,7 +15,7 @@
 - 使用 Sentence Transformers 与 FAISS 或 pgvector 进行向量检索
 - BM25 与向量结果通过 RRF 融合；可通过配置关闭
 - 使用 Cross-Encoder 对候选结果进行二阶段重排
-- 支持抽取式生成和 OpenAI-compatible LLM
+- 支持抽取式生成、DeepSeek API 和 OpenAI-compatible LLM
 - 返回答案及对应原文引用，便于核验
 - 提供检索指标、答案关键词覆盖率和参数网格实验
 - 提供文档上传、索引构建、查询和健康检查 API
@@ -46,7 +46,7 @@ PDF / TXT / Markdown
  Cross-Encoder Reranker
         │ Top-N contexts
         ▼
- Extractive / OpenAI-compatible LLM
+ Extractive / DeepSeek / OpenAI-compatible LLM
         │
         ▼
  Answer + Citations
@@ -240,6 +240,19 @@ curl -X POST http://127.0.0.1:8000/feedback \
 ### 抽取式生成
 
 默认的 `extractive` 模式不需要 API Key。它会从检索上下文中抽取与问题最相关的句子，并在证据不足时拒绝回答。
+
+### DeepSeek API
+
+先在项目根目录创建 `.env`（可复制 `.env.example`），设置：
+
+```dotenv
+RAG_LLM_PROVIDER=deepseek
+RAG_DEEPSEEK_MODEL=deepseek-flash
+RAG_DEEPSEEK_BASE_URL=https://api.deepseek.com
+RAG_DEEPSEEK_API_KEY=你的DeepSeek_API_Key
+```
+
+然后按前面的启动步骤运行服务，并向 `/query` 提问。DeepSeek 只负责根据检索到的片段生成回答；文档解析、Embedding、FAISS/pgvector 检索和 Rerank 的配置不变。`deepseek-flash` 是当前官方 API 的模型标识；也可将 `RAG_DEEPSEEK_MODEL` 设为 `deepseek-v4-pro`。此模式默认关闭 DeepSeek 的思考模式，超时为 120 秒。不要将填有密钥的 `.env` 提交到 Git。
 
 ### OpenAI-compatible 服务
 

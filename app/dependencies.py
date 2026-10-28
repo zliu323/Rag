@@ -27,7 +27,13 @@ def build_pipeline(settings: Settings) -> RAGPipeline:
         else None
     )
     llm = build_llm(
-        settings.llm_provider, settings.llm_base_url, settings.llm_model, settings.llm_api_key
+        settings.llm_provider,
+        settings.llm_base_url,
+        settings.llm_model,
+        settings.llm_api_key,
+        deepseek_base_url=settings.deepseek_base_url,
+        deepseek_model=settings.deepseek_model,
+        deepseek_api_key=settings.deepseek_api_key,
     )
     return RAGPipeline(
         vector_store=store,
