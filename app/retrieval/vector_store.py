@@ -96,7 +96,9 @@ class FaissVectorStore(VectorStore):
         if not self.ready:
             raise IndexNotReadyError("Cannot save an empty index")
         self.directory.mkdir(parents=True, exist_ok=True)
-        self._faiss().write_index(self.index, str(self.directory / self.INDEX_FILE))
+        # FAISS's Windows file I/O cannot reliably open paths containing non-ASCII text.
+        index_bytes = self._faiss().serialize_index(self.index).tobytes()
+        (self.directory / self.INDEX_FILE).write_bytes(index_bytes)
         (self.directory / self.METADATA_FILE).write_text(
             json.dumps([chunk.to_dict() for chunk in self.chunks], ensure_ascii=False, indent=2),
             encoding="utf-8",
@@ -124,7 +126,8 @@ class FaissVectorStore(VectorStore):
             raise ValueError("Stored index dimension does not match the configured embedder")
         if manifest.get("embedder") != self.embedder.identity:
             raise ValueError("Stored index was built with a different embedding model")
-        self.index = self._faiss().read_index(str(index_path))
+        index_bytes = np.frombuffer(index_path.read_bytes(), dtype=np.uint8)
+        self.index = self._faiss().deserialize_index(index_bytes)
         values = json.loads(metadata_path.read_text(encoding="utf-8"))
         self.chunks = [Chunk.from_dict(value) for value in values]
         if self.index.ntotal != len(self.chunks):
