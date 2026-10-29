@@ -5,12 +5,12 @@ import json
 from pathlib import Path
 
 from app.config import ROOT, Settings
-from app.dependencies import build_pipeline
 from evaluation.metrics import answer_keyword_correctness, mean_metrics, retrieval_metrics
+from evaluation.runtime import build_evaluation_pipeline
 
 
 def evaluate(settings: Settings, qa_path: Path, k: int) -> dict:
-    pipeline = build_pipeline(settings)
+    pipeline = build_evaluation_pipeline(settings)
     documents = sorted((ROOT / "sample_data" / "documents").glob("*"))
     pipeline.index_paths(documents, persist=False)
     examples = json.loads(qa_path.read_text(encoding="utf-8"))
@@ -23,13 +23,15 @@ def evaluate(settings: Settings, qa_path: Path, k: int) -> dict:
             example.get("relevant_text_contains"),
             k,
         )
-        answer = pipeline.llm.generate(example["question"], results)
+        generated = pipeline.answer_result_from_contexts(example["question"], results)
+        answer = generated.answer
         correctness = answer_keyword_correctness(answer, example.get("answer_keywords", []))
         rows.append(
             {
                 "id": example["id"],
                 "question": example["question"],
                 "answer": answer,
+                "decision": generated.decision,
                 **retrieval,
                 **correctness,
             }
@@ -46,6 +48,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--k", type=int, default=5)
     parser.add_argument("--output", type=Path)
     parser.add_argument(
+        "--llm",
+        choices=["extractive", "deepseek", "openai-compatible"],
+        default="extractive",
+        help="Defaults to local generation; external API generation must be explicitly selected",
+    )
+    parser.add_argument(
         "--lightweight",
         action="store_true",
         help="Use hashing embeddings and no reranker",
@@ -55,9 +63,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    overrides = {}
+    overrides = {"llm_provider": args.llm}
     if args.lightweight:
-        overrides = {"embedding_provider": "hashing", "reranker_enabled": False}
+        overrides.update(embedding_provider="hashing", reranker_enabled=False)
     report = evaluate(Settings(**overrides), args.qa, args.k)
     rendered = json.dumps(report, ensure_ascii=False, indent=2)
     if args.output:

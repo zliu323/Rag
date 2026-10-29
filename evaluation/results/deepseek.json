@@ -1,0 +1,2214 @@
+{
+  "created_at": "2026-10-29T07:46:31.122383+00:00",
+  "fingerprint": "18a50137a1f7b38baae14e92df4a84027ccceb9685f026cfa3f42b1401a26310",
+  "provenance": "Human-authored synthetic fixtures, no production users or traffic. Exploratory test set, not an independently held-out business benchmark.",
+  "metric_notes": "Retrieval metrics use answerable QA only; recall counts exact annotated evidence units. Keyword coverage and refusal are lexical proxies. Citation checks validate numbering, not factual support. Bootstrap intervals resample questions; they do not model production traffic.",
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "settings": {
+    "llm": "deepseek",
+    "model": "deepseek-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions",
+    "embedding": "hashing:v1:384",
+    "reranker": false,
+    "k": 3,
+    "chunk_size": 220,
+    "overlap": 40,
+    "strategy": "hybrid",
+    "workers": 3
+  },
+  "file_sha256": {
+    "sample_data\\documents\\ai_platform_guide.txt": "d5ac978f974c8e65b58cc117c1d529c3b6007a8ca0c7ba27fe7e018c80bb2ce2",
+    "sample_data\\documents\\employee_handbook.md": "c706bc9f498e23f11543c7aea5b17c5d83b91e6b52ca7541b18c3d193e06e511",
+    "sample_data\\documents\\security_policy.md": "ab1e7b49c61e74813aeae54082c363469cbf94b7e91c6102efead61502139631",
+    "evaluation\\fixtures\\documents\\data_governance.md": "e3ae241b51ff63c70e185be253c10866e291823ddf4fd03d2f4dbd2947c4056e",
+    "evaluation\\fixtures\\documents\\service_runbook.md": "186ab0678eea57ac846cd42986571fb5c4953aec4e9ebd20703a25cfcaf6e2ff",
+    "evaluation\\fixtures\\documents\\support_sla.md": "b8ee98b0a0f2f051dc8d0540aabb95ecf55e0a8a848c254db6a1cd39086bd36d",
+    "evaluation\\fixtures\\qa_extended.json": "e9091d6a5a05f894de463fbef4287d4820849181e74b1d0d7d78d427c360dbb4",
+    "app\\__init__.py": "b0978af3228c7a24a1039215544389d4cb88de5570b274abd868738bf41e1f26",
+    "app\\config.py": "2530e0a9bbc1b7170845ced7a29950897364e0922bfaeb9c19008656d705facc",
+    "app\\dependencies.py": "219677317d25c35eed72a74aaf02b9edf17a0623ef34387a2d79cee27ede7f98",
+    "app\\domain.py": "32879cd9211ee1d78bd1d10515fd5af52a7120d29712d4e832a02ebe3fe2b29c",
+    "app\\exceptions.py": "556699acbf65b32c5a1dca70fb0d4bee4507bf35fff341e1da8ec6dbf0c0a589",
+    "app\\generation\\__init__.py": "1d22cd58df8b12450e7442dad96049eca59f5971faa63ed6040af432d524c375",
+    "app\\generation\\llm.py": "104997bfe732eab0371fee52ecac951a5562dd82fa0d0f8459d8a577341fd9bf",
+    "app\\generation\\prompt.py": "36429c096dd9f057fc05505f2368e6ee16e35d4c959f744bfd0aba39a3041ff2",
+    "app\\ingestion\\__init__.py": "cd8835aaa72df5347c3238fe1dfc6bbd7c379c64ca1a201673e7dfb9d6571aeb",
+    "app\\ingestion\\loader.py": "4c266b6260a4c3ff7228bb0e02928cafd87c82c6e153e1c4bbc667fd21ea7e2d",
+    "app\\ingestion\\splitter.py": "d2c76dc35078c8d463188bc279fe891594cf4bf07aca564e85e24ac341e56f66",
+    "app\\logging.py": "0c4e79b612bf61ed36e70445c7722a3e86850041d17d0a789f20af7486b1f1ca",
+    "app\\main.py": "ffd88e09a7bd43587325f436e62de3b705a00ee4ec9a584787a1677fbdda11cf",
+    "app\\observability.py": "552dac3608b353ef677e72d8febb9c2a91087c4e787664e99e11f29eb28700d9",
+    "app\\rag\\__init__.py": "1bd6fb166133e8e2a82562bbd7e7736c71855d6e2222505f97cdc2eedb56f946",
+    "app\\rag\\graph_workflow.py": "e523f91f93f1e77b3bc5aaeebd0ad4f17838fda4cb222e0a0107d6b32e43e32c",
+    "app\\rag\\pipeline.py": "c009ba6529763d7da4061ba6764c940a83f41b79af0331b1021d921c55af943f",
+    "app\\retrieval\\__init__.py": "cd3b8fede1e28938818984f14a722c229fb337e4651c9d0bd9139333668015d4",
+    "app\\retrieval\\embedding.py": "ac53b1f5b320177202c2388153db849edd1482d1d483eb6befe8737ca2483a8f",
+    "app\\retrieval\\lexical.py": "f77c2a6b6e4126ddab7d999731ce1687494f67709887df3a5e131c71dc1a6e7a",
+    "app\\retrieval\\pgvector_store.py": "42cf0c2012ed954ed4aa76672cfe85650d8c8b33bcdca0ecc275cce8a6da93ac",
+    "app\\retrieval\\reranker.py": "a1a845847c20cc90aeb2566f59916af0c2195c0cc6d5b085624c69b943d33a6a",
+    "app\\retrieval\\vector_store.py": "656c6c5ece6658a18e5085a81e8cabcaf520f0dfdbe1e9591a38da8093000da8",
+    "app\\schemas.py": "6d4038af9eee00c9076667e1adb2361fc7a48fc9a6e066df26db235a616600a3",
+    "app\\text.py": "006d1136bbebc36ec8c6f8ff33aa3660216dbf6f57685ba2d8b2b4ef7cac5e98",
+    "evaluation\\benchmark.py": "94ab111bb84eec4a299f22ea7095295f17fbc15071e40b1667e94cde45a6a588",
+    "evaluation\\suite.py": "453544687522e871f41fe300009c1b84abb5970c4c859a9c9200f73ed21c6fcd"
+  },
+  "rows": [
+    {
+      "id": "ai01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "文档进入知识库之后、生成向量之前要经过哪两步？",
+      "retrieval_ms": 0.09250000584870577,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "文档进入知识库后、生成向量前要经过**文本清洗**和**分块**两步：文档先进行文本清洗与分块，再由 embedding 模型生成向量并写入 FAISS 索引[1]。",
+      "usage": {
+        "input": 521,
+        "output": 46
+      },
+      "generation_ms": 1974.3164999963483,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai02",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "知识库用什么索引保存向量，用什么模型重排序？",
+      "retrieval_ms": 0.09390000195708126,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "知识库使用 **FAISS 索引**保存向量，并使用 **Cross-Encoder** 对问题与候选片段进行联合编码和重排序 [1]。",
+      "usage": {
+        "input": 474,
+        "output": 33
+      },
+      "generation_ms": 1655.858400001307,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai03",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "生产默认检索候选数量与重排后交给模型的数量是多少？",
+      "retrieval_ms": 0.09729999874252826,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "生产环境默认召回 **Top-8** 候选片段，重排序后保留 **4** 个片段交给生成模型 [1]。",
+      "usage": {
+        "input": 476,
+        "output": 29
+      },
+      "generation_ms": 1636.8198999989545,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai04",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "Top-K是否永远固定？什么变化时应重新评测？",
+      "retrieval_ms": 0.08110000635497272,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "Top-K 不是永远固定的。文档规模、问题难度和延迟预算发生变化时，应通过离线评测重新调整 [1][2]。\n\n补充：生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型，但这只是默认值，并非固定真理 [1]。",
+      "usage": {
+        "input": 473,
+        "output": 66
+      },
+      "generation_ms": 2089.2036000004737,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai05",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "chunk设置过小或过大分别有什么风险？",
+      "retrieval_ms": 0.06800000846851617,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 0.3333333333333333,
+      "answer": "chunk 过小可能丢失上下文；chunk 过大则会稀释语义并占用更多上下文窗口 [3]。文档还指出，op-K 并非固定真理，当文档规模、问题难度和延迟预算变化时，应通过离线评测调整 [3]。",
+      "usage": {
+        "input": 489,
+        "output": 55
+      },
+      "generation_ms": 1517.8883999906247,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai06",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "引用的来源元数据由哪个阶段生成，包含哪三项？",
+      "retrieval_ms": 0.08969999908003956,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "来源元数据由**摄取阶段**生成，包含三项：**文件名、PDF 页码（若存在）和 chunk_id** [1]。",
+      "usage": {
+        "input": 476,
+        "output": 30
+      },
+      "generation_ms": 1631.1595999868587,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai07",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "资料不足时应该怎样回答，可以依赖参数记忆补全吗？",
+      "retrieval_ms": 0.0951000110944733,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "资料不足时，系统应明确回答无法从知识库确定，不能依赖模型参数记忆补全 [1][2]。",
+      "usage": {
+        "input": 486,
+        "output": 26
+      },
+      "generation_ms": 1457.4527999939164,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ai08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "离线检索评测至少要看哪些指标？关键词覆盖率能代表完整正确率吗？",
+      "retrieval_ms": 0.12060000153724104,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "离线检索评测至少应包含 Hit@K、Recall@K 与 MRR [1]。带标准答案的数据集还可以使用关键词覆盖率，但它只是一个“透明但有限的正确性代理指标” [1]，因此不能代表完整的正确率。",
+      "usage": {
+        "input": 421,
+        "output": 51
+      },
+      "generation_ms": 1632.7166999981273,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "cross01",
+      "category": "multi_source",
+      "strategy": "hybrid",
+      "question": "员工发现疑似泄露与确认P0事件的通知时限各是多少？",
+      "retrieval_ms": 0.0999000039882958,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "员工发现疑似数据泄露时，应在 **30 分钟内**向安全响应团队报告[1][2]。值班人员确认 P0 事件后，应在 **10 分钟内**通知安全负责人和技术负责人，并立即建立事件指挥频道[1]。",
+      "usage": {
+        "input": 399,
+        "output": 53
+      },
+      "generation_ms": 1711.0018999956083,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "生产库只读权限有效期多长，需要哪两个人审批？",
+      "retrieval_ms": 0.08820000221021473,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "生产数据库只读权限有效期为 **7 天**，须经**数据负责人和直属经理共同审批** [1]。",
+      "usage": {
+        "input": 500,
+        "output": 27
+      },
+      "generation_ms": 1617.6672000001417,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data02",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "客户手机号脱敏时保留哪些位，其余怎么显示？",
+      "retrieval_ms": 0.08189999789465219,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换 [1]。",
+      "usage": {
+        "input": 569,
+        "output": 27
+      },
+      "generation_ms": 1478.3775999967474,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data03",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "一次导出超过一万行客户记录需要谁批准、登记什么？",
+      "retrieval_ms": 0.08929999603424221,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "单次导出超过 10,000 行客户记录，需要**安全负责人审批**，并**登记用途和销毁日期**[1]。",
+      "usage": {
+        "input": 535,
+        "output": 30
+      },
+      "generation_ms": 1686.3146999967285,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data04",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "外包人员可以下载客户原始数据吗？应如何使用数据？",
+      "retrieval_ms": 0.0957000011112541,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "不可以。外包人员不得下载原始客户数据，只能在隔离环境中使用脱敏数据[1]。",
+      "usage": {
+        "input": 464,
+        "output": 20
+      },
+      "generation_ms": 1761.2315000005765,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data05",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "访问审计日志保留多久，谁可以删除？",
+      "retrieval_ms": 0.07789999654050916,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "访问审计日志保留 **180 天**，且**只有安全审计组拥有删除权限** [1][2]。",
+      "usage": {
+        "input": 449,
+        "output": 25
+      },
+      "generation_ms": 1421.4197999972384,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data06",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "离职账号何时停用，与账号有关的API密钥如何处理？",
+      "retrieval_ms": 0.08830000297166407,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "离职账号应在离职生效后 **1 小时内停用**，相关 API 密钥必须**同步吊销** [1]。",
+      "usage": {
+        "input": 498,
+        "output": 26
+      },
+      "generation_ms": 1606.442699994659,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data07",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "测试数据多久清理一次？处于审计冻结状态时怎么办？",
+      "retrieval_ms": 0.08960001287050545,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理，直至冻结解除 [1]。",
+      "usage": {
+        "input": 516,
+        "output": 24
+      },
+      "generation_ms": 1701.6148999973666,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "data08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "敏感数据传输和静态存储分别采用什么加密要求？",
+      "retrieval_ms": 0.08579999848734587,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密 [1]。",
+      "usage": {
+        "input": 427,
+        "output": 25
+      },
+      "generation_ms": 1556.4630000008037,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "周一到周五的标准上下班时间是什么？",
+      "retrieval_ms": 0.19299999985378236,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "标准工作时间为周一至周五 09:30–18:30 [1]。",
+      "usage": {
+        "input": 506,
+        "output": 17
+      },
+      "generation_ms": 1839.5148999989033,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr02",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "还在试用期能否按正式政策每周申请两天远程办公？",
+      "retrieval_ms": 0.1390999968862161,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "不能。员工需完成试用期后，每周才可申请最多两天远程办公[1]。",
+      "usage": {
+        "input": 510,
+        "output": 20
+      },
+      "generation_ms": 1786.630899994634,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr03",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "客户现场支持岗位的远程办公安排以什么为准？",
+      "retrieval_ms": 0.10720000136643648,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "客户现场支持岗位的远程办公安排应以**项目安排为准** [1]。",
+      "usage": {
+        "input": 561,
+        "output": 17
+      },
+      "generation_ms": 1806.6285999957472,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr04",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "申请远程办公需要提前多久，由谁批准？",
+      "retrieval_ms": 0.08949999755714089,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "申请远程办公需要至少提前一个工作日（1 个工作日）在内部系统提交，并由直属经理审批[1]。",
+      "usage": {
+        "input": 529,
+        "output": 26
+      },
+      "generation_ms": 1466.455700006918,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr05",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "正式员工一年可以休几天带薪年假？",
+      "retrieval_ms": 0.08070000330917537,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "正式员工每个自然年享有 **12 天**带薪年假；入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整[1][2]。年假原则上应在当年使用，经直属经理批准后最多可将 **5 天**结转至下一年第一季度[2]。",
+      "usage": {
+        "input": 494,
+        "output": 64
+      },
+      "generation_ms": 1743.6480999895139,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr06",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "入职不足一年，年假按什么计算，出现小数怎么处理？",
+      "retrieval_ms": 0.08990000060293823,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "入职不满一年的员工，年假按当年剩余完整月份折算，折算结果向下取整[1][2]。",
+      "usage": {
+        "input": 533,
+        "output": 24
+      },
+      "generation_ms": 1924.0047999919625,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr07",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "年假结转的天数、使用期限和审批人分别是什么？",
+      "retrieval_ms": 0.10820000898092985,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "根据员工手册，年假经直属经理批准后最多可将 **5 天**结转至**下一年第一季度**，审批人为**直属经理** [1][3]。",
+      "usage": {
+        "input": 552,
+        "output": 37
+      },
+      "generation_ms": 1758.0911999975797,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "hr08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "学习预算每年多少？买一笔超过两千元的课程需要谁提前审批？",
+      "retrieval_ms": 0.10740000288933516,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "公司为每位正式员工提供每年人民币 5,000 元的学习预算[1]。单笔超过 2,000 元的支出需在购买前获得部门负责人批准[1]。",
+      "usage": {
+        "input": 534,
+        "output": 40
+      },
+      "generation_ms": 1498.978799994802,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "普通发布的时间窗口是什么？紧急修复由谁审批？",
+      "retrieval_ms": 0.0906000059330836,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "普通发布只能在工作日 14:00–16:00 执行；紧急修复需要值班经理批准 [1]。",
+      "usage": {
+        "input": 475,
+        "output": 25
+      },
+      "generation_ms": 1657.8689000016311,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops02",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "灰度初始流量是多少，观察多久，满足什么条件才扩到50%？",
+      "retrieval_ms": 0.08480000542476773,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "灰度发布先接入 **5% 流量并观察 15 分钟**；只有**错误率低于 1%** 才能扩大到 50% [1]。",
+      "usage": {
+        "input": 479,
+        "output": 35
+      },
+      "generation_ms": 1565.6287999881897,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops03",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "发布后错误率连续3分钟超过2%应如何处理？",
+      "retrieval_ms": 0.09009998757392168,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志[1]。回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路[1]。",
+      "usage": {
+        "input": 533,
+        "output": 48
+      },
+      "generation_ms": 1382.1076000022003,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops04",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "回滚由谁执行、由谁验证，验证什么？",
+      "retrieval_ms": 0.06520000169984996,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路[1]。",
+      "usage": {
+        "input": 533,
+        "output": 19
+      },
+      "generation_ms": 1267.4620999896433,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops05",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "P1可用性告警的确认时限和进展同步时限是什么？",
+      "retrieval_ms": 0.09529999806545675,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "P1 可用性告警需要在 **5 分钟内确认**，并在 **20 分钟内向业务负责人同步进展** [1]。",
+      "usage": {
+        "input": 507,
+        "output": 29
+      },
+      "generation_ms": 1654.0246000076877,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops06",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "数据库连接池超过什么阈值、持续多久会告警？优先做什么？",
+      "retrieval_ms": 0.08889999298844486,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "数据库连接池使用率超过 **85%** 且持续 **5 分钟** 会触发告警；应先排查慢查询，**不得直接重启数据库** [1]。",
+      "usage": {
+        "input": 535,
+        "output": 38
+      },
+      "generation_ms": 1823.458800005028,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops07",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "全量备份何时执行、保留几天、恢复演练何时进行？",
+      "retrieval_ms": 0.08420000085607171,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "全量备份每日 02:00 执行，备份保留 30 天；恢复演练在每月首个周三执行 [1]。",
+      "usage": {
+        "input": 545,
+        "output": 28
+      },
+      "generation_ms": 1648.973899995326,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "核心订单服务的RTO和RPO分别是多少？",
+      "retrieval_ms": 0.08590001380071044,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "6cb56deb8241c309524f",
+          "text": "单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。\n维护窗口内可以静默告警，但必须记录工单编号、静默范围和结束时间。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "核心订单服务的 RTO 为 30 分钟，RPO 为 5 分钟 [1][2]。",
+      "usage": {
+        "input": 447,
+        "output": 25
+      },
+      "generation_ms": 1506.4557999867247,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "ops09",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "维护期间静默告警必须记录哪些内容？",
+      "retrieval_ms": 0.07870000263210386,
+      "contexts": [
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "6cb56deb8241c309524f",
+          "text": "单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。\n维护窗口内可以静默告警，但必须记录工单编号、静默范围和结束时间。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "维护期间静默告警必须记录：工单编号、静默范围和结束时间 [1]。",
+      "usage": {
+        "input": 480,
+        "output": 21
+      },
+      "generation_ms": 1776.388099999167,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "安全事件严重程度分为哪四级？",
+      "retrieval_ms": 0.07510000432375818,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "6cb56deb8241c309524f",
+          "text": "单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。\n维护窗口内可以静默告警，但必须记录工单编号、静默范围和结束时间。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "安全事件按严重程度分为 P0、P1、P2 和 P3 四级 [1]。",
+      "usage": {
+        "input": 402,
+        "output": 23
+      },
+      "generation_ms": 1545.1568999997107,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec02",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "核心生产系统受影响、大规模客户数据泄露属于哪一级事件？",
+      "retrieval_ms": 0.11490000179037452,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "属于 **P0** 级事件。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0 [1]。",
+      "usage": {
+        "input": 567,
+        "output": 30
+      },
+      "generation_ms": 1797.5600000063423,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec03",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "确认P0后通知哪两位负责人，最迟多久通知？",
+      "retrieval_ms": 0.09420000424142927,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "确认 P0 后，应在 **10 分钟内**通知**安全负责人和技术负责人**，并立即建立事件指挥频道 [1]。",
+      "usage": {
+        "input": 480,
+        "output": 29
+      },
+      "generation_ms": 1782.7149000077043,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec04",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "P0确认后除了通知负责人还应立即建立什么？",
+      "retrieval_ms": 0.08660000457894057,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "P0 确认后，除在 10 分钟内通知安全负责人和技术负责人外，还应立即建立事件指挥频道 [1]。",
+      "usage": {
+        "input": 466,
+        "output": 28
+      },
+      "generation_ms": 1748.2009000086691,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec05",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "发现疑似泄露，多久内报告，向哪个团队报告？",
+      "retrieval_ms": 0.08269998943433166,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "发现疑似数据泄露后，员工应在 **30 分钟内**向**安全响应团队**报告 [1][2]。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志，并且不得擅自删除、覆盖或修改相关日志 [1]。",
+      "usage": {
+        "input": 459,
+        "output": 55
+      },
+      "generation_ms": 1700.877200011746,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec06",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "泄露报告应包含哪些信息？",
+      "retrieval_ms": 0.06259999645408243,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "泄露报告应包含：发现时间、涉及系统、已观察到的影响及可用日志 [1]。",
+      "usage": {
+        "input": 453,
+        "output": 20
+      },
+      "generation_ms": 1675.801000004867,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec07",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "为保护取证链，可以自行覆盖或删除日志吗？",
+      "retrieval_ms": 0.0923000043258071,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "不可以。为保护取证链，不得擅自删除、覆盖或修改相关日志[2]。员工发现疑似数据泄露后也应保留相关日志，不应自行删除证据[3]。",
+      "usage": {
+        "input": 398,
+        "output": 37
+      },
+      "generation_ms": 2092.156700004125,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sec08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "事故恢复之后，谁在几个工作日内提交复盘？",
+      "retrieval_ms": 0.09729999874252826,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "事故恢复后 **5 个工作日内**，由**事件负责人**提交复盘报告 [1]。",
+      "usage": {
+        "input": 469,
+        "output": 21
+      },
+      "generation_ms": 1387.6568999985466,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla01",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "企业版和标准版P1工单首次响应各需要多久？",
+      "retrieval_ms": 0.08710000838618726,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "企业版 P1 工单首次响应时限为 15 分钟，标准版为 2 小时[1]。",
+      "usage": {
+        "input": 556,
+        "output": 26
+      },
+      "generation_ms": 1781.7915000050562,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla02",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "P2与P3工单首次响应时限分别是多少，是否等于解决时限？",
+      "retrieval_ms": 0.09670000872574747,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "6cb56deb8241c309524f",
+          "text": "单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。\n维护窗口内可以静默告警，但必须记录工单编号、静默范围和结束时间。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "P2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决 [1]。",
+      "usage": {
+        "input": 489,
+        "output": 34
+      },
+      "generation_ms": 1658.5888999979943,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla03",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "升级支持工单要准备哪些材料？",
+      "retrieval_ms": 0.06569999095518142,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "升级支持工单时需提供：工单编号、受影响用户数、复现步骤及相关日志 [1]。",
+      "usage": {
+        "input": 554,
+        "output": 24
+      },
+      "generation_ms": 1467.3850999970455,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla04",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "企业版和标准版支持服务窗口分别是什么？",
+      "retrieval_ms": 0.08030000026337802,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "6cb56deb8241c309524f",
+          "text": "单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。\n维护窗口内可以静默告警，但必须记录工单编号、静默范围和结束时间。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "企业版支持服务覆盖全年 7×24 小时；标准版服务窗口为工作日 09:00–18:00 [1]。",
+      "usage": {
+        "input": 491,
+        "output": 30
+      },
+      "generation_ms": 1856.9175000011455,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla05",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "境内差旅住宿每晚报销上限多少，超标需要何时由谁批准？",
+      "retrieval_ms": 0.10209999163635075,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "境内差旅住宿报销上限为每晚 600 元；超出部分须在预订前获得部门负责人批准[1][3]。",
+      "usage": {
+        "input": 551,
+        "output": 28
+      },
+      "generation_ms": 1640.1556999917375,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla06",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "返程后报销应在多久内提交，需要哪些凭证？",
+      "retrieval_ms": 0.08589999924879521,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "返程后需在 **15 个工作日内**提交差旅报销，并附**发票和出差审批单** [1]。",
+      "usage": {
+        "input": 470,
+        "output": 28
+      },
+      "generation_ms": 1378.7290999898687,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla07",
+      "category": "condition",
+      "strategy": "hybrid",
+      "question": "采购达到两万元和五万元分别需要什么额外审核？",
+      "retrieval_ms": 0.08369999704882503,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。[1]",
+      "usage": {
+        "input": 537,
+        "output": 30
+      },
+      "generation_ms": 1728.4074000053806,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "sla08",
+      "category": "direct",
+      "strategy": "hybrid",
+      "question": "客户退款由谁发起，财务在什么时间内处理？",
+      "retrieval_ms": 0.08489999163430184,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        }
+      ],
+      "hit": 1.0,
+      "evidence_recall": 1.0,
+      "all_evidence_hit": 1.0,
+      "mrr": 1.0,
+      "answer": "客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理[1]。",
+      "usage": {
+        "input": 534,
+        "output": 21
+      },
+      "generation_ms": 1716.2539999990258,
+      "keyword_coverage_proxy": 1.0,
+      "citation_format_valid": 1.0
+    },
+    {
+      "id": "unknown01",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "公司今年年终奖发几个月工资？",
+      "retrieval_ms": 0.0653000024612993,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "answer": "提供的资料中没有关于年终奖发放月数的信息。[1][2][3] 仅涉及工作时间与远程办公、休假制度、学习发展和信息安全等内容，无法据此回答该问题。",
+      "usage": {
+        "input": 456,
+        "output": 39
+      },
+      "generation_ms": 1664.2519000015454,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown02",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "海外出差住宿每晚报销上限是多少？",
+      "retrieval_ms": 0.07110000296961516,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        }
+      ],
+      "answer": "提供的资料中没有海外出差住宿报销上限的信息。资料只规定了境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准 [1][2]。因此无法据此回答海外出差的标准。",
+      "usage": {
+        "input": 546,
+        "output": 49
+      },
+      "generation_ms": 1713.7010999867925,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown03",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "标准版客户的P1工单保证几小时彻底修复？",
+      "retrieval_ms": 0.08789999992586672,
+      "contexts": [
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "af3c0b9b758889fe7bec",
+          "text": "# 服务运维手册（人工编写的虚构评测资料）\n\n## 发布与回滚\n普通发布只能在工作日 14:00–16:00 执行，紧急修复需要值班经理批准。\n灰度发布先接入 5% 流量并观察 15 分钟；错误率低于 1% 才能扩大到 50%。\n发布后连续 3 分钟错误率超过 2%，必须回滚到上一个稳定版本，并保留当前版本日志。\n回滚由发布负责人执行，值班工程师负责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5"
+        }
+      ],
+      "answer": "标准版客户的 P1 工单首次响应时限为 2 小时，但资料明确说明“响应不等于问题已经解决”[1]。因此，提供的上下文没有给出“彻底修复”的时限保证，无法据此回答修复时长。",
+      "usage": {
+        "input": 554,
+        "output": 50
+      },
+      "generation_ms": 1942.558499998995,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown04",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "AI平台的embedding向量维度具体是多少？",
+      "retrieval_ms": 0.06810000922996551,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "7a012bb7984052ed1dca",
+          "text": "若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。\n\n平台监控检索延迟、生成延迟、无答案率和用户反馈。离线检索评测至少包含 Hit@K、Recall@K 与 MRR；带标准答案的数据集还可以使用关键词覆盖率作为一个透明但有限的正确性代理指标。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        }
+      ],
+      "answer": "提供的上下文没有说明 AI 平台 embedding 向量的具体维度。资料只提到文档会由 embedding 模型生成向量并写入 FAISS 索引 [1]，但没有给出维度数值。因此无法从知识库确定该维度。",
+      "usage": {
+        "input": 470,
+        "output": 48
+      },
+      "generation_ms": 2378.4089000109816,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown05",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "员工病假每年最多多少天？",
+      "retrieval_ms": 0.06120000034570694,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "c9d2344e2c23c93244a1",
+          "text": "# 客户支持与费用规范（人工编写的虚构评测资料）\n\n## 支持服务\n企业版客户的 P1 工单首次响应时限为 15 分钟，标准版为 2 小时。\nP2 工单首次响应时限为 4 小时，P3 工单为 1 个工作日；响应不等于问题已经解决。\n升级工单时需提供工单编号、受影响用户数、复现步骤及相关日志。\n企业版支持服务覆盖全年 7×24 小时，标准版服务窗口为工作日 09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600"
+        }
+      ],
+      "answer": "提供的资料中没有关于病假天数的规定，因此无法回答该问题。[1][2][3]",
+      "usage": {
+        "input": 557,
+        "output": 22
+      },
+      "generation_ms": 1682.3895999987144,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown06",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "公司VPN服务器的IP地址是多少？",
+      "retrieval_ms": 0.0720000098226592,
+      "contexts": [
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "d926cd13d10676323595",
+          "text": "整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将 5 天结转至下一年第一季度。\n\n## 学习发展\n\n公司为每位正式员工提供每年人民币 5,000 元的学习预算，可用于与岗位相关的课程、认证考试和技术书籍。单笔超过 2,000 元的支出需在购买前获得部门负责人批准。\n\n## 信息安全\n\n包含客户信息、源代码或未公开经营数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "b462be6b576f28f81d1f",
+          "text": "# 星河科技员工手册（示例）\n\n## 工作时间与远程办公\n\n标准工作时间为周一至周五 09:30–18:30。员工完成试用期后，每周可申请最多两天远程办公；涉及客户现场支持的岗位应以项目安排为准。远程办公申请需要至少提前一个工作日在内部系统提交，并由直属经理审批。\n\n## 休假制度\n\n正式员工每个自然年享有 12 天带薪年假。入职不满一年的员工按当年剩余完整月份折算，折算结果向下取整。年假原则上应在当年使用，经直属经理批准后最多可将"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "answer": "提供的资料中没有关于公司 VPN 服务器 IP 地址的信息。[1][2][3] 仅涉及工作时间与远程办公、休假、学习发展和信息安全等规定，无法回答该问题。",
+      "usage": {
+        "input": 455,
+        "output": 40
+      },
+      "generation_ms": 1947.8915999934543,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown07",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "P0事故的责任人要扣多少绩效奖金？",
+      "retrieval_ms": 0.07340000593103468,
+      "contexts": [
+        {
+          "source": "security_policy.md",
+          "chunk_id": "821ccc28635e4f26a33f",
+          "text": "、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。\n\n事件恢复后 5 个工作日内，事件负责人需要提交复盘报告。复盘重点是时间线、根因、检测缺口、纠正措施和明确负责人，不以追究个人责任为目标。"
+        },
+        {
+          "source": "security_policy.md",
+          "chunk_id": "4510fac78f7100eef4ee",
+          "text": "# 信息安全事件响应政策（示例）\n\n安全事件按严重程度分为 P0、P1、P2 和 P3。影响生产核心系统、造成大规模客户数据泄露或业务全面中断的事件定义为 P0。值班人员确认 P0 后，应在 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道。\n\n所有员工发现疑似数据泄露时，应在 30 分钟内向安全响应团队报告。报告内容应包含发现时间、涉及系统、已观察到的影响及可用日志。为保护取证链，不得擅自删除、覆盖或修改相关日志。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        }
+      ],
+      "answer": "提供的上下文没有说明 P0 事故责任人会被扣多少绩效奖金。\n\n相关内容仅提到：P0 事件需在确认后 10 分钟内通知安全负责人和技术负责人，并立即建立事件指挥频道 [2]；事件复盘“不以追究个人责任为目标” [1]。因此无法据此确定绩效扣减金额。",
+      "usage": {
+        "input": 484,
+        "output": 68
+      },
+      "generation_ms": 1732.2585000074469,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown08",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "全量备份存储在具体哪个云服务商的哪个地域？",
+      "retrieval_ms": 0.08509999315720052,
+      "contexts": [
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "8f82b092c581950f7ea3",
+          "text": "星河科技 AI 平台使用指南（示例）\n\n知识库服务采用检索增强生成架构。文档进入系统后先进行文本清洗与分块，再由 embedding 模型生成向量，并写入 FAISS 索引。查询时先召回候选片段，再使用 Cross-Encoder 对问题与候选片段进行联合编码和重排序。\n\n生产环境默认召回 Top-8 候选片段，重排序后保留 4 个片段交给生成模型。Top-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。"
+        },
+        {
+          "source": "service_runbook.md",
+          "chunk_id": "90aa223cc7cfb817abe1",
+          "text": "责验证健康检查和核心交易链路。\n\n## 告警与恢复\nP1 可用性告警需要在 5 分钟内确认，20 分钟内向业务负责人同步进展。\n数据库连接池使用率超过 85% 持续 5 分钟触发告警；先排查慢查询，不得直接重启数据库。\n每日 02:00 执行全量备份，备份保留 30 天；每月首个周三执行恢复演练。\n核心订单服务恢复时间目标 RTO 为 30 分钟，恢复点目标 RPO 为 5 分钟。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "answer": "提供的上下文没有说明全量备份存储在哪个云服务商或哪个地域。运行手册只说明每日 02:00 执行全量备份、备份保留 30 天，以及每月首个周三执行恢复演练 [2]，但没有给出存储位置。",
+      "usage": {
+        "input": 520,
+        "output": 53
+      },
+      "generation_ms": 1674.120200012112,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown09",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "客户退款的退款比例如何计算？",
+      "retrieval_ms": 0.06510000093840063,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "ai_platform_guide.txt",
+          "chunk_id": "0b3e5e8f57e3b2686915",
+          "text": "op-K 不是固定真理：文档规模、问题难度和延迟预算变化时，应通过离线评测调整。过小的 chunk 可能丢失上下文，过大的 chunk 会稀释语义并占用更多上下文窗口。\n\n回答必须附带来源。来源元数据由摄取阶段生成，包括文件名、PDF 页码（若存在）和 chunk_id；生成模型只能引用系统实际返回的上下文编号。若检索内容不足，系统应明确回答无法从知识库确定，而不是依赖模型参数记忆补全。"
+        },
+        {
+          "source": "support_sla.md",
+          "chunk_id": "2511d008b324ed3a4ae4",
+          "text": "09:00–18:00。\n\n## 费用规则\n境内差旅住宿报销上限为每晚 600 元，超出部分须在预订前获得部门负责人批准。\n差旅报销需在返程后 15 个工作日内提交，并附发票和出差审批单。\n单笔采购金额达到 20,000 元时需采购部门复核；达到 50,000 元时还需财务负责人批准。\n客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理。"
+        }
+      ],
+      "answer": "知识库中没有关于客户退款比例计算方式的信息。现有资料仅说明客户退款应由销售负责人发起，财务在审核通过后 5 个工作日内处理 [3]，但未涉及退款比例的计算规则。因此无法从知识库确定该问题的答案。",
+      "usage": {
+        "input": 514,
+        "output": 54
+      },
+      "generation_ms": 1811.9771999918157,
+      "refusal_proxy": 1.0
+    },
+    {
+      "id": "unknown10",
+      "category": "unanswerable",
+      "strategy": "hybrid",
+      "question": "外包人员使用脱敏数据的隔离环境登录密码是什么？",
+      "retrieval_ms": 0.09410000347997993,
+      "contexts": [
+        {
+          "source": "data_governance.md",
+          "chunk_id": "08326913a697c1233811",
+          "text": "# 数据治理规范（人工编写的虚构评测资料）\n\n## 访问与导出\n生产数据库只读权限有效期为 7 天，须经数据负责人和直属经理共同审批。\n客户手机号展示时仅保留前 3 位和后 4 位，中间位以星号替换。\n单次导出超过 10,000 行客户记录，需要安全负责人审批，并登记用途和销毁日期。\n外包人员不得下载原始客户数据，只能在隔离环境使用脱敏数据。\n\n## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。"
+        },
+        {
+          "source": "data_governance.md",
+          "chunk_id": "ac9f8367e1b19aa91889",
+          "text": "## 生命周期\n访问审计日志保留 180 天，只有安全审计组拥有删除权限。\n离职账号应在离职生效后 1 小时内停用，相关 API 密钥必须同步吊销。\n测试数据每 90 天清理一次；涉及审计冻结的数据应暂停清理直至冻结解除。\n敏感数据传输必须使用 TLS 1.2 或以上版本，静态存储使用 AES-256 加密。"
+        },
+        {
+          "source": "employee_handbook.md",
+          "chunk_id": "63fd113f820437e9d46e",
+          "text": "数据的文件不得上传到未经公司批准的公共云盘。发现疑似数据泄露后，员工应在 30 分钟内联系安全响应团队并保留相关日志，不应自行删除证据。"
+        }
+      ],
+      "answer": "The context does not specify the login password for the isolated environment used by outsourced personnel. It only states that outsourced personnel may not download raw customer data and may use desensitized data only in an isolated environment [1]. No password or credential information is provided.",
+      "usage": {
+        "input": 428,
+        "output": 54
+      },
+      "generation_ms": 1885.265699995216,
+      "refusal_proxy": 0.0
+    }
+  ],
+  "corpus": {
+    "documents": 6,
+    "chunks": 15,
+    "qa": 60
+  },
+  "summary": {
+    "hybrid": {
+      "attempted": 60,
+      "succeeded": 60,
+      "errors": 0,
+      "hit": 1.0,
+      "hit_n": 50,
+      "evidence_recall": 1.0,
+      "evidence_recall_n": 50,
+      "all_evidence_hit": 1.0,
+      "all_evidence_hit_n": 50,
+      "mrr": 0.9866666666666667,
+      "mrr_n": 50,
+      "keyword_coverage_proxy": 1.0,
+      "keyword_coverage_proxy_n": 50,
+      "citation_format_valid": 1.0,
+      "citation_format_valid_n": 50,
+      "refusal_proxy": 0.9,
+      "refusal_proxy_n": 10,
+      "retrieval_ms": {
+        "p50": 0.08805000106804073,
+        "p95": 0.11518500177771783
+      },
+      "generation_ms": {
+        "p50": 1684.3521499977214,
+        "p95": 1980.0608549965543
+      },
+      "token_usage": {
+        "input": 29786,
+        "output": 2047
+      }
+    }
+  },
+  "paired_comparison": {
+    "hit": {},
+    "evidence_recall": {},
+    "mrr": {}
+  },
+  "completed_at": "2026-10-29T07:47:06.121297+00:00"
+}

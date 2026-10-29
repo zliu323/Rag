@@ -11,7 +11,7 @@ from app.retrieval.reranker import CrossEncoderReranker
 from app.retrieval.vector_store import FaissVectorStore
 
 
-def build_pipeline(settings: Settings) -> RAGPipeline:
+def build_pipeline(settings: Settings, *, load_index: bool = True) -> RAGPipeline:
     embedder = build_embedder(
         settings.embedding_provider, settings.embedding_model, settings.embedding_device
     )
@@ -20,7 +20,8 @@ def build_pipeline(settings: Settings) -> RAGPipeline:
         if settings.vector_backend == "pgvector"
         else FaissVectorStore(embedder, settings.index_dir)
     )
-    store.load()
+    if load_index:
+        store.load()
     reranker = (
         CrossEncoderReranker(settings.reranker_model, settings.embedding_device)
         if settings.reranker_enabled
@@ -43,6 +44,6 @@ def build_pipeline(settings: Settings) -> RAGPipeline:
         top_k=settings.top_k,
         rerank_top_n=settings.rerank_top_n,
         hybrid_enabled=settings.hybrid_enabled,
+        context_min_coverage=settings.context_min_coverage,
         observability=Observability(settings),
     )
-

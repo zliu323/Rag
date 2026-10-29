@@ -3,12 +3,11 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
-import tempfile
 from pathlib import Path
 
 from app.config import ROOT, Settings
-from app.dependencies import build_pipeline
 from evaluation.metrics import mean_metrics, retrieval_metrics
+from evaluation.runtime import build_evaluation_pipeline
 
 
 def run_experiments(lightweight: bool = False) -> list[dict]:
@@ -18,42 +17,41 @@ def run_experiments(lightweight: bool = False) -> list[dict]:
     documents = sorted((ROOT / "sample_data" / "documents").glob("*"))
     grid = itertools.product([350, 700], [60, 120], [3, 5], [False, True])
     reports = []
-    with tempfile.TemporaryDirectory() as directory:
-        for chunk_size, overlap, top_k, use_reranker in grid:
-            if overlap >= chunk_size:
-                continue
-            settings = Settings(
-                index_dir=Path(directory) / f"{chunk_size}-{overlap}-{top_k}-{use_reranker}",
-                chunk_size=chunk_size,
-                chunk_overlap=overlap,
-                top_k=top_k,
-                reranker_enabled=use_reranker and not lightweight,
-                embedding_provider="hashing" if lightweight else "sentence-transformers",
-            )
-            pipeline = build_pipeline(settings)
-            pipeline.index_paths(documents, persist=False)
-            metrics = []
-            for example in examples:
-                results = pipeline.retrieve(example["question"], top_k=top_k, rerank=use_reranker)
-                metrics.append(
-                    retrieval_metrics(
-                        results,
-                        example["relevant_sources"],
-                        example.get("relevant_text_contains"),
-                        top_k,
-                    )
+    for chunk_size, overlap, top_k, use_reranker in grid:
+        if overlap >= chunk_size:
+            continue
+        settings = Settings(
+            chunk_size=chunk_size,
+            chunk_overlap=overlap,
+            top_k=top_k,
+            reranker_enabled=use_reranker and not lightweight,
+            embedding_provider="hashing" if lightweight else "sentence-transformers",
+            llm_provider="extractive",
+        )
+        pipeline = build_evaluation_pipeline(settings)
+        pipeline.index_paths(documents, persist=False)
+        metrics = []
+        for example in examples:
+            results = pipeline.retrieve(example["question"], top_k=top_k, rerank=use_reranker)
+            metrics.append(
+                retrieval_metrics(
+                    results,
+                    example["relevant_sources"],
+                    example.get("relevant_text_contains"),
+                    top_k,
                 )
-            reports.append(
-                {
-                    "config": {
-                        "chunk_size": chunk_size,
-                        "overlap": overlap,
-                        "top_k": top_k,
-                        "rerank": use_reranker and not lightweight,
-                    },
-                    "metrics": mean_metrics(metrics),
-                }
             )
+        reports.append(
+            {
+                "config": {
+                    "chunk_size": chunk_size,
+                    "overlap": overlap,
+                    "top_k": top_k,
+                    "rerank": use_reranker and not lightweight,
+                },
+                "metrics": mean_metrics(metrics),
+            }
+        )
     return reports
 
 
@@ -70,4 +68,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

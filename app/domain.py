@@ -1,7 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Literal
+
+
+@dataclass(slots=True)
+class GenerationResult:
+    answer: str
+    decision: Literal["answered", "refused"]
+    usage: dict[str, int]
 
 
 @dataclass(slots=True)
@@ -36,4 +43,3 @@ class SearchResult:
     def citation(self) -> str:
         location = f"p.{self.chunk.page}" if self.chunk.page else "source"
         return f"{self.chunk.source} ({location})"
-

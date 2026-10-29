@@ -3,13 +3,15 @@ from __future__ import annotations
 import hashlib
 import logging
 from pathlib import Path
+from typing import Literal
 
-from app.domain import Chunk, SearchResult
-from app.generation.llm import LLMProvider
+from app.domain import Chunk, GenerationResult, SearchResult
+from app.generation.llm import INSUFFICIENT_CONTEXT_ANSWER, LLMProvider
 from app.generation.prompt import SYSTEM_PROMPT
 from app.ingestion.loader import load_document
 from app.ingestion.splitter import RecursiveTextSplitter
 from app.observability import Observability
+from app.rag.grounding import has_relevant_context
 from app.retrieval.lexical import BM25Index, reciprocal_rank_fusion
 from app.retrieval.reranker import Reranker
 from app.retrieval.vector_store import VectorStore
@@ -28,6 +30,7 @@ class RAGPipeline:
         rerank_top_n: int = 4,
         hybrid_enabled: bool = True,
         observability: Observability | None = None,
+        context_min_coverage: float = 0.3,
     ) -> None:
         self.vector_store = vector_store
         self.splitter = splitter
@@ -37,6 +40,7 @@ class RAGPipeline:
         self.rerank_top_n = rerank_top_n
         self.hybrid_enabled = hybrid_enabled
         self.observability = observability
+        self.context_min_coverage = context_min_coverage
         existing = vector_store.all_chunks() if vector_store.ready else []
         self.lexical = BM25Index(existing) if hybrid_enabled and existing else None
         self.index_version = self._index_version(existing) if existing else None
@@ -69,9 +73,7 @@ class RAGPipeline:
                 dense = self.vector_store.search(question, limit)
                 span.update(
                     output={
-                        "matches": [
-                            {"id": item.chunk.id, "score": item.score} for item in dense
-                        ]
+                        "matches": [{"id": item.chunk.id, "score": item.score} for item in dense]
                     }
                 )
         else:
@@ -119,26 +121,42 @@ class RAGPipeline:
                     "top_k": top_k or self.top_k,
                     "rerank": rerank,
                     "index_version": self.index_version,
-                    "prompt_version": hashlib.sha256(
-                        SYSTEM_PROMPT.encode("utf-8")
-                    ).hexdigest()[:12],
+                    "prompt_version": hashlib.sha256(SYSTEM_PROMPT.encode("utf-8")).hexdigest()[
+                        :12
+                    ],
                 },
             ) as trace:
                 trace_id = getattr(trace, "trace_id", None)
                 contexts = self.retrieve(question, top_k=top_k, rerank=rerank)
-                answer = self.answer_from_contexts(question, contexts)
+                generated = self.answer_result_from_contexts(question, contexts)
                 trace.update(
-                    output=self.observability.content(answer),
-                    metadata={"citations": len(contexts), "answer_length": len(answer)},
+                    output=self.observability.content(generated.answer),
+                    metadata={
+                        "citations": len(contexts) if generated.decision == "answered" else 0,
+                        "answer_length": len(generated.answer),
+                        "decision": generated.decision,
+                    },
                 )
         else:
             contexts = self.retrieve(question, top_k=top_k, rerank=rerank)
-            answer = self.answer_from_contexts(question, contexts)
-        return self.format_response(question, answer, contexts, trace_id)
+            generated = self.answer_result_from_contexts(question, contexts)
+        return self.format_response(
+            question, generated.answer, contexts, trace_id, generated.decision
+        )
+
+    def has_sufficient_context(self, question: str, contexts: list[SearchResult]) -> bool:
+        return has_relevant_context(question, contexts, self.context_min_coverage)
 
     def answer_from_contexts(self, question: str, contexts: list[SearchResult]) -> str:
+        return self.answer_result_from_contexts(question, contexts).answer
+
+    def answer_result_from_contexts(
+        self, question: str, contexts: list[SearchResult]
+    ) -> GenerationResult:
+        if not self.has_sufficient_context(question, contexts):
+            return GenerationResult(INSUFFICIENT_CONTEXT_ANSWER, "refused", {})
         if not self.observability:
-            return self.llm.generate(question, contexts)
+            return self.llm.generate_result(question, contexts)
         with self.observability.observe(
             "answer-generation",
             kind="generation",
@@ -147,18 +165,27 @@ class RAGPipeline:
                 {"question": question, "contexts": [item.chunk.text for item in contexts]}
             ),
         ) as generation:
-            answer, usage = self.llm.generate_with_metadata(question, contexts)
+            result = self.llm.generate_result(question, contexts)
             generation.update(
-                output=self.observability.content(answer),
-                usage_details=usage or None,
-                metadata={"context_chunk_ids": [item.chunk.id for item in contexts]},
+                output=self.observability.content(result.answer),
+                usage_details=result.usage or None,
+                metadata={
+                    "context_chunk_ids": [item.chunk.id for item in contexts],
+                    "decision": result.decision,
+                },
             )
-            return answer
+            return result
 
     @staticmethod
     def format_response(
-        question: str, answer: str, contexts: list[SearchResult], trace_id: str | None
+        question: str,
+        answer: str,
+        contexts: list[SearchResult],
+        trace_id: str | None,
+        decision: Literal["answered", "refused"] = "answered",
     ) -> dict:
+        if decision == "refused":
+            contexts = []
         citations = [
             {
                 "id": index,
@@ -178,4 +205,5 @@ class RAGPipeline:
             "answer": answer,
             "citations": citations,
             "trace_id": trace_id,
+            "decision": decision,
         }

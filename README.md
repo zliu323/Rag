@@ -20,7 +20,7 @@
 - 提供检索指标、答案关键词覆盖率和参数网格实验
 - 提供文档上传、索引构建、查询和健康检查 API
 - 可选 Langfuse 追踪检索、重排、生成的延迟与 Token 用量
-- 可选 LangGraph 外层流程：检索为空时问题改写、最多一次重试和拒答
+- 可选 LangGraph 外层流程：检索为空或相关性不足时问题改写、最多一次重试和拒答
 - 包含自动化测试、轻量冒烟测试、Docker 配置及 GitHub Actions CI
 
 ## 系统架构
@@ -55,14 +55,14 @@ PDF / TXT / Markdown
 `/query/graph` 在上述 RAG 流程外增加控制层：
 
 ```text
-检索 ──有结果──→ 生成答案与引用（生成器可自行拒答）
-  ├─无结果且可改写─→ 改写问题 → 再检索（最多一次）
-  │                            ├─有结果─→ 生成答案与引用
-  │                            └─仍无结果─→ 拒答
-  └─无结果且不可改写─→ 拒答
+检索 ──通过相关性初筛──→ 生成器返回结构化回答/拒答状态
+  ├─未通过且可改写─→ 改写问题 → 再检索（最多一次）
+  │                          ├─通过初筛─→ 生成器判定回答/拒答
+  │                          └─仍未通过─→ 拒答
+  └─未通过且不可改写─→ 拒答
 ```
 
-现有 `/query` 保持原有直接问答行为。图流程复用相同的检索、重排、生成与引用逻辑，不需要额外模型或 API Key。
+`/query` 与 `/query/graph` 共用相关性初筛与结构化回答状态，均返回 `decision`。图流程额外提供最多一次改写重试，不需要增加模型或 API Key。
 
 核心模块彼此解耦：
 
@@ -179,6 +179,7 @@ Hashing 模式仅用于测试系统连通性，不适合作为生产语义检索
 | `RAG_CHUNK_OVERLAP` | `120` | 相邻分块重叠大小 |
 | `RAG_TOP_K` | `8` | 向量检索候选数量 |
 | `RAG_RERANK_TOP_N` | `4` | 重排后保留的上下文数量 |
+| `RAG_CONTEXT_MIN_COVERAGE` | `0.3` | 问题有效词在单个片段中的最低覆盖率；设为 `0` 关闭词汇初筛，空上下文仍拒答 |
 | `RAG_MAX_UPLOAD_MB` | `20` | 单个上传文件的大小上限 |
 
 完整配置示例见 [`.env.example`](.env.example)。
@@ -193,7 +194,11 @@ curl -X POST http://127.0.0.1:8000/query/graph \
   -d '{"question":"请问 P0 事件需要在几分钟内通知负责人？","rerank":false}'
 ```
 
-响应额外包含 `decision`（`answered` 或 `refused`）、`retrieval_attempts` 和可选的 `rewritten_question`。图流程不再计算问题词覆盖率：只在检索结果为空时尝试改写问题并最多重试一次；检索有结果时交给原有生成器判断能否基于文档回答。问题改写只清理固定的礼貌表达，不调用模型；如果没有实质改写，则直接拒答以避免重复检索。图流程直接拒答或默认抽取式生成器返回固定拒答语时，响应不包含引用。OpenAI-compatible 模型可能用不同措辞拒答，此时 `decision` 不一定能识别该拒答；需通过评测验证其行为。
+两个查询接口均返回 `decision`（`answered` 或 `refused`），图接口还返回 `retrieval_attempts` 和可选的 `rewritten_question`。图流程对检索为空或问题有效词覆盖不足的结果尝试清理礼貌表达并最多重试一次；没有实质改写则直接拒答。词汇初筛不直接使用 FAISS、RRF 或重排器的数值分数，避免混用不同量纲。
+
+初筛是可配置的相关性启发式，不能证明片段足以回答问题；它可能漏掉同义表达或跨语言的语义匹配。这类业务可调低 `RAG_CONTEXT_MIN_COVERAGE` 或设为 `0`，再通过独立评测选择阈值。现有 50 条可回答扩展题在默认阈值下均通过初筛，这不代表未知业务问题的召回保证。
+
+DeepSeek/OpenAI-compatible 生成时要求返回包含 `answer` 与 `decision` 的 JSON，程序严格验证状态与非空答案。模型拒答时统一返回“现有知识库内容不足以回答该问题。”且引用为空；不会再通过答案措辞判断拒答。格式不合法时返回提供商错误，不将其当作成功答案。对接的自定义模型需遵守该输出协议；新增生成器需实现 `generate_result()` 并显式返回 `GenerationResult`。直接调用提供商的 `generate()`/`generate_with_metadata()` 仍保留原来的纯文本输出接口。
 
 ### pgvector 后端
 
@@ -326,6 +331,8 @@ curl -X POST http://127.0.0.1:8000/query \
 
 ## 评测
 
+新增 60 题扩展评测、逐题结果及 DeepSeek 实际调用说明见 [evaluation/README.md](evaluation/README.md)。默认运行 `python -m evaluation.suite --output evaluation/results/offline.json`；它使用隔离的内存索引，并对比纯向量与 BM25/RRF 检索。
+
 运行标准评测：
 
 ```bash
@@ -337,6 +344,8 @@ python -m evaluation.evaluate --k 5 --output reports/evaluation.json
 ```bash
 python -m evaluation.evaluate --lightweight --k 5 --output reports/evaluation-lightweight.json
 ```
+
+旧评测与参数网格也使用独立内存 FAISS 索引：不读取或保存应用索引、不连接配置中的业务 pgvector，并关闭业务追踪。评测默认使用本地抽取式生成，不继承 `.env` 中的外部 LLM 开关。需要实际 API 生成时显式添加 `--llm deepseek` 或 `--llm openai-compatible`，例如 `python -m evaluation.evaluate --lightweight --llm deepseek`。参数网格只测检索，不调用外部 LLM。
 
 当前包含以下指标：
 
@@ -360,6 +369,14 @@ python -m evaluation.experiment --lightweight --output reports/experiments-light
 ```
 
 实验会比较不同的 `chunk_size`、`overlap`、`top_k` 和 `rerank` 组合。内置 QA 数量较少，生产参数应基于具有代表性的业务数据进行选择。
+
+运行可复现的本地检索负载基准：
+
+```bash
+python -m evaluation.benchmark --multiplier 2000 --repeats 500 --output reports/benchmark.json
+```
+
+基准会对比纯向量与混合检索，输出索引耗时、P50/P95/P99 延迟、顺序吞吐量和检索指标。`multiplier` 通过重复示例分块构造合成负载，因此结果只能表述为本地合成压测，不能解读为生产流量或业务收益。
 
 ## 测试与代码检查
 

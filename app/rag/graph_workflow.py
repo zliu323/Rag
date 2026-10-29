@@ -62,9 +62,8 @@ class GraphRAGWorkflow:
             "attempts": state["attempts"] + 1,
         }
 
-    @staticmethod
-    def _route(state: GraphState) -> Literal["answer", "rewrite", "refuse"]:
-        if state["contexts"]:
+    def _route(self, state: GraphState) -> Literal["answer", "rewrite", "refuse"]:
+        if self.pipeline.has_sufficient_context(state["question"], state["contexts"]):
             return "answer"
         if state["attempts"] == 1 and rewrite_query(state["question"]) != _normalize_query(
             state["search_query"]
@@ -77,10 +76,10 @@ class GraphRAGWorkflow:
         return {"search_query": rewrite_query(state["question"])}
 
     def _answer(self, state: GraphState) -> GraphState:
-        answer = self.pipeline.answer_from_contexts(state["question"], state["contexts"])
+        result = self.pipeline.answer_result_from_contexts(state["question"], state["contexts"])
         return {
-            "answer": answer,
-            "decision": "refused" if answer == REFUSAL else "answered",
+            "answer": result.answer,
+            "decision": result.decision,
         }
 
     @staticmethod
@@ -119,7 +118,9 @@ class GraphRAGWorkflow:
         else:
             result = self.graph.invoke(initial)
         contexts = result["contexts"] if result["decision"] == "answered" else []
-        response = self.pipeline.format_response(question, result["answer"], contexts, trace_id)
+        response = self.pipeline.format_response(
+            question, result["answer"], contexts, trace_id, result["decision"]
+        )
         response.update(
             decision=result["decision"],
             retrieval_attempts=result["attempts"],

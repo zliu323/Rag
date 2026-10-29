@@ -34,10 +34,10 @@ class QueryResponse(BaseModel):
     answer: str
     citations: list[Citation]
     trace_id: str | None = None
+    decision: Literal["answered", "refused"]
 
 
 class GraphQueryResponse(QueryResponse):
-    decision: Literal["answered", "refused"]
     retrieval_attempts: int
     rewritten_question: str | None = None
 
@@ -46,4 +46,3 @@ class FeedbackRequest(BaseModel):
     trace_id: str = Field(pattern=r"^[0-9a-fA-F]{32}$")
     helpful: bool
     comment: str | None = Field(default=None, max_length=1000)
-

@@ -41,6 +41,7 @@ class Settings(BaseSettings):
     chunk_overlap: int = Field(120, ge=0, le=1000)
     top_k: int = Field(8, ge=1, le=50)
     rerank_top_n: int = Field(4, ge=1, le=20)
+    context_min_coverage: float = Field(0.3, ge=0, le=1)
     max_upload_mb: int = Field(20, ge=1, le=200)
 
     @model_validator(mode="after")

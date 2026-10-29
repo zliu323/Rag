@@ -2,7 +2,8 @@ import pytest
 
 from app.config import Settings
 from app.dependencies import build_pipeline
-from app.generation.llm import OpenAICompatibleProvider
+from app.exceptions import ProviderError
+from app.generation.llm import INSUFFICIENT_CONTEXT_ANSWER, OpenAICompatibleProvider
 
 
 def test_openai_compatible_returns_provider_token_usage(monkeypatch) -> None:
@@ -71,3 +72,101 @@ def test_deepseek_requires_api_key(tmp_path) -> None:
     )
     with pytest.raises(ValueError, match="RAG_DEEPSEEK_API_KEY"):
         build_pipeline(settings)
+
+
+@pytest.mark.parametrize(
+    "wording",
+    [
+        "资料没有提供所问信息。",
+        "The context does not specify the requested facts.",
+    ],
+)
+def test_structured_refusal_is_language_independent(monkeypatch, wording):
+    import json
+
+    requests = []
+
+    class Response:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {
+                "choices": [
+                    {
+                        "message": {
+                            "content": json.dumps(
+                                {
+                                    "decision": "refused",
+                                    "answer": wording,
+                                }
+                            )
+                        }
+                    }
+                ],
+                "usage": {"prompt_tokens": 20, "completion_tokens": 10},
+            }
+
+    def post(*args, **kwargs):
+        requests.append(kwargs["json"])
+        return Response()
+
+    monkeypatch.setattr("app.generation.llm.httpx.post", post)
+    provider = OpenAICompatibleProvider("https://example.test/v1", "test", None)
+    result = provider.generate_result("问题", [])
+    assert result.decision == "refused"
+    assert result.answer == INSUFFICIENT_CONTEXT_ANSWER
+    assert result.usage == {"input": 20, "output": 10}
+    assert "JSON object" in requests[0]["messages"][0]["content"]
+
+
+@pytest.mark.parametrize(
+    "content",
+    [
+        "not json",
+        "[]",
+        '{"decision":"maybe","answer":"text"}',
+        '{"decision":"answered","answer":""}',
+        '{"decision":"answered"}',
+        '{"decision":"answered","answer":null}',
+    ],
+)
+def test_malformed_structured_output_fails_instead_of_claiming_answered(monkeypatch, content):
+    class Response:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {"choices": [{"message": {"content": content}}]}
+
+    monkeypatch.setattr("app.generation.llm.httpx.post", lambda *args, **kwargs: Response())
+    provider = OpenAICompatibleProvider("https://example.test/v1", "test", None)
+    with pytest.raises(ProviderError, match="invalid structured answer"):
+        provider.generate_result("问题", [])
+
+
+def test_structured_answer_preserves_answer_citations_and_usage(monkeypatch):
+    class Response:
+        def raise_for_status(self):
+            pass
+
+        def json(self):
+            return {
+                "choices": [
+                    {
+                        "message": {
+                            "content": ('{"decision":"answered","answer":"预算为5000元 [1]"}')
+                        }
+                    }
+                ],
+                "usage": {"prompt_tokens": 30, "completion_tokens": 20},
+            }
+
+    monkeypatch.setattr("app.generation.llm.httpx.post", lambda *args, **kwargs: Response())
+    result = OpenAICompatibleProvider("https://example.test", "test", None).generate_result(
+        "年度学习预算？",
+        [],
+    )
+    assert result.decision == "answered"
+    assert result.answer == "预算为5000元 [1]"
+    assert result.usage == {"input": 30, "output": 20}
